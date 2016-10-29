@@ -1,3 +1,13 @@
+/*
+ * File: main.cpp
+ * ----------------
+ *
+ * Created by Rick Boshae on 10/29/16.
+ *
+ */
+
+
+
 #include <iostream>
 #include <string>
 #include "Arguement.h"
