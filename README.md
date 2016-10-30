@@ -5,11 +5,11 @@ TODO:
 	Parser,
 	And class,
 	Or class,
-	Contain class,
+	Container class,(Possibly not needed)
 
 
 Complete:
 	Arguement class,
 	Statement class,
-	Aruement_List class,
+	Arguement_List class,
 
