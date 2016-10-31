@@ -19,7 +19,7 @@ public:
 	Argument(){};
 	~Argument(){};
 
-	virtual void execute() = 0;
+	virtual int execute() = 0;
 };
 
 #endif 

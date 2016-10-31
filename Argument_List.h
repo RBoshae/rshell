@@ -27,7 +27,7 @@ class Argument_List : public Argument
 	~Argument_List();
 	
 	void Add_Element(Argument* some_argument);
-	void execute();
+	int execute();
 
 };
 #endif

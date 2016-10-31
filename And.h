@@ -9,17 +9,22 @@
 #ifndef AND_H
 #define AND_H
 
-class And
+#include "Argument.h"
+
+class And : public Argument
 
 {
+	protected:
+	Argument* left_argument;
+	Argument* right_argument;
 
 	public:
 	/* Contructors */
 	And();
 	~And();
-	And(Argument* left_argument, Argument* right_argument);
+	And(Argument* x, Argument* y);
 
-	void And::execute();
+	int execute();
 
 
 };

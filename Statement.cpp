@@ -28,7 +28,7 @@ std::cout << this->statement;
 return;
 }
 
-void Statement::execute()
+int Statement::execute()
 {
 
 	//This is where syscalls stuff will come in 
@@ -83,5 +83,5 @@ void Statement::execute()
 	kill(child_pid, SIGKILL);
 
 
-return;
+return 0;
 }

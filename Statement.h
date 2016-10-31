@@ -37,7 +37,7 @@ public:
  	~Statement();
 
 	void print();
-	void execute();
+	int execute();
 
 };
 
