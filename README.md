@@ -4,7 +4,8 @@ CS100 Project, Assignment 2
 TODO:
 	Parser,
 	Or class,
-	Container class,(Possibly not needed)
+	Container class (Possibly not needed),
+	Ignore comment functionality,
 
 
 Complete:
