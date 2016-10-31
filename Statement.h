@@ -9,7 +9,7 @@
 #ifndef STATEMENT_H
 #define STATEMENT_H
 
-#include "Arguement.h"
+#include "Argument.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -24,7 +24,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-class Statement : public Arguement {
+class Statement : public Argument {
 
 protected:
 	char* arg;

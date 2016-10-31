@@ -1,5 +1,5 @@
 /*
- * File: Arguement.h
+ * File: Argument.h
  * ------------------
  * 
  * Created by Rick Boshae on 10/29/16.
@@ -7,17 +7,17 @@
  */ 
 
 
-#ifndef ARGUEMENT_H
-#define ARGUEMENT_H
+#ifndef ARGUMENT_H
+#define ARGUMENT_H
 
-class Arguement
+class Argument
 {
 protected:
 	
 public:
 	/* Constructors */
-	Arguement(){};
-	~Arguement(){};
+	Argument(){};
+	~Argument(){};
 
 	virtual void execute() = 0;
 };

@@ -10,14 +10,15 @@
 
 #include <iostream>
 #include <string>
-#include "Arguement.h"
+#include "Argument.h"
 #include "Statement.h"
+#include "Argument_List.h"
 
 using namespace std;
 
 int main(){
 	
-	//some code that will be incorpated into the parser
+	//some code that will be incorporated into the parser class
 	bool continue_shell = true;
 	string user_input; 
 	string and_delimeter = "&&";
@@ -29,6 +30,7 @@ int main(){
 	//test to check Statement class
 	string str = "Some String";
 	Statement* test_Statement;
+	Argument_List* args = new Argument_List();
 	
 	cout << "**********Welcome to rshell**********" << endl;
 
@@ -39,16 +41,20 @@ int main(){
 		getline(cin, user_input);//getline will allow us to record and print the string in one line.
 		if(user_input == "q") break;
 
-		cout << "This is what was received from the user: " << endl << user_input << endl;//verify that we have recieved the correct user input
-		
+		//VERIFY WE RECIEVED USER INPUT
 		token = user_input.substr(0, user_input.find(and_delimeter));
 		test_Statement = new Statement(token);
-
-		test_Statement->print();	
+		test_Statement->print();
 		cout << endl;
 
-		cout << "BEGIN EXECUTE" << endl;
-		test_Statement->execute();		
+		//Run Leaf Execute
+		cout << "LEAF execution call" << endl;
+		test_Statement->execute();
+		
+		//Check Compositor Execution
+		cout << endl << "COMPOSITOR execution call" <<endl;
+		args->Add_Element(test_Statement);
+		args->execute();		
 
 	}
 

@@ -9,7 +9,7 @@ TODO:
 
 
 Complete:
-	Arguement class,
+	Argument class,
 	Statement class,
-	Arguement_List class,
+	Arguemnt_List class,
 
