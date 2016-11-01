@@ -14,6 +14,7 @@
 #include "Statement.h"
 #include "Argument_List.h"
 #include "And.h"
+#include "Or.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ int main(){
 	Statement* left_test_statement;
 	Statement* right_test_statement;
 
-	And* test_and;
+	Or* test_or;
 
 	Argument_List* args = new Argument_List();
 	
@@ -46,15 +47,15 @@ int main(){
 		if(user_input == "q") break;
 
 		//VERIFY WE RECIEVED USER INPUT
-		token = user_input.substr(0, user_input.find(and_delimeter));//set up left child with command
+		token = user_input.substr(0, user_input.find(or_delimeter));//set up left child with command
 		left_test_statement = new Statement(token);
-		user_input.erase(0,user_input.find(and_delimeter) + 3);
-		cout << "ERASE FUNCTION"  << user_input << endl;
-		token = user_input.substr(0, user_input.find(and_delimeter));
+		user_input.erase(0,user_input.find(or_delimeter) + 3);
+		cout << "ERASE FUNCTION"  << endl << user_input << endl;
+		token = user_input.substr(0, user_input.find(or_delimeter));
 		right_test_statement = new Statement(token);
 		
 		//populate And leaf
-		test_and = new And(left_test_statement, right_test_statement);		
+		test_or = new Or(left_test_statement, right_test_statement);		
 
 		cout << "This is the left child: "; left_test_statement->print();
 		cout << endl;
@@ -68,13 +69,13 @@ int main(){
 		//test_statement->execute();
 		
 		//Run AND class
-		cout << "AND execution call" <<endl;
-		test_and->execute();
+		cout << "OR execution call" <<endl;
+		test_or->execute();
 		cout << endl;
 		
 		//Check COMPOSITION class
 		cout << endl << "COMPOSITION execution call" <<endl;
-		args->Add_Element(test_and);
+		args->Add_Element(test_or);
 		args->execute();		
 		cout << endl;
 	}

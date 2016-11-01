@@ -62,7 +62,7 @@ int Statement::execute()
 	
 	if (child_pid == -1)
 	{
-		exit(1);
+		return 1;
 	}
 
 	if (child_pid == 0){//This is the child process
@@ -72,7 +72,7 @@ int Statement::execute()
 		
 		//If execvp returns, it must have failed
 		std::cout << "Unkown command" << std::endl;
-		exit(0);
+		return 1;
 	}
 	else{ //This is the parent process
 		//This is run by the parent. Wait for the child to terminate.
