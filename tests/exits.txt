@@ -1,0 +1,3 @@
+echo bye && exit
+exit && whoops
+exit

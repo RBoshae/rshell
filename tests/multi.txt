@@ -1,0 +1,4 @@
+echo hello && echo world
+echo hello && echo world && echo happy
+echo asdf
+echo r ; exit
