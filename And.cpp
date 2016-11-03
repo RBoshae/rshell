@@ -16,19 +16,22 @@ And::~And()
 {
 }
 
-And::And(Argument* x, Argument* y)
+And::And(bool passed_run_status, Argument* y)
 {
-	this->left_argument = x;
+	run_status = passed_run_status;
 	this->right_argument = y;
 }
 
-int And::execute()
+bool And::execute()
 {	
 	//Always execute left_argument
-	int run_status = left_argument->execute();
+	//bool run_status = left_argument->execute();
 	
 	//Only execute right_argument if left_argument is true
-	if(run_status == 0)
-		right_argument->execute();
-	return 0;
+	if(run_status == true)
+	{
+		return right_argument->execute();
+		
+	}
+	else return false;
 }

@@ -19,9 +19,9 @@ void Argument_List::Add_Element(Argument* some_argument)
 	argument_trees.push_back(some_argument);
 }
 
-int Argument_List::execute()
+bool Argument_List::execute()
 {
 	for (int i; i < argument_trees.size(); i++)
 		argument_trees.at(i)->execute();
-	return 0;
+	return true;//possibly a mistake
 }

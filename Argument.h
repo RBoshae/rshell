@@ -13,13 +13,14 @@
 class Argument
 {
 protected:
+bool run_status;
 	
 public:
 	/* Constructors */
 	Argument(){};
 	~Argument(){};
 
-	virtual int execute() = 0;
+	virtual bool execute() = 0;
 };
 
 #endif 

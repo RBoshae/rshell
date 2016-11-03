@@ -28,7 +28,7 @@ std::cout << this->statement;
 return;
 }
 
-int Statement::execute()
+bool Statement::execute()
 {
 
 	//This is where syscalls stuff will come in 
@@ -62,7 +62,8 @@ int Statement::execute()
 	
 	if (child_pid == -1)
 	{
-		return 1;
+		run_status = false;
+		return false;
 	}
 
 	if (child_pid == 0){//This is the child process
@@ -72,7 +73,8 @@ int Statement::execute()
 		
 		//If execvp returns, it must have failed
 		std::cout << "Unkown command" << std::endl;
-		return 1;
+		run_status = false;
+		return false;
 	}
 	else{ //This is the parent process
 		//This is run by the parent. Wait for the child to terminate.
@@ -82,6 +84,6 @@ int Statement::execute()
 	//Kill Child
 	kill(child_pid, SIGKILL);
 
-
-return 0;
+run_status = true;
+return true;
 }

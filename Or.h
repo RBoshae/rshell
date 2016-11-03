@@ -15,16 +15,16 @@ class Or : public Argument
 
 {
 	protected:
-	Argument* left_argument;
+	//Argument* left_argument;
 	Argument* right_argument;
 
 	public:
 	/* Contructors */
 	Or();
 	~Or();
-	Or(Argument* x, Argument* y);
+	Or(bool passed_run_status, Argument* y);
 
-	int execute();
+	bool execute();
 
 
 };

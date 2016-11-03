@@ -15,16 +15,16 @@ class And : public Argument
 
 {
 	protected:
-	Argument* left_argument;
+	//Argument* left_argument;
 	Argument* right_argument;
 
 	public:
 	/* Contructors */
 	And();
 	~And();
-	And(Argument* x, Argument* y);
+	And(bool passed_run_status , Argument* y);
 
-	int execute();
+	bool execute();
 
 
 };
