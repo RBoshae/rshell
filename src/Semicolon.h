@@ -6,12 +6,12 @@
  *
  */
 
-#ifndef AND_H
-#define AND_H
+#ifndef SEMICOLON_H
+#define SEMICOLON_H
 
 #include "Command.h"
 
-class And : 
+class Semicolon : 
 	public Command
 
 {
@@ -22,9 +22,9 @@ class And :
 
 	public:
 	/* Contructors */
-	And() {};
-	~And() {};
-	And(Command* left_passed_command, Command* right_passed_command);
+	Semicolon() {};
+	~Semicolon() {};
+	Semicolon(Command* left_passed_command, Command* right_passed_command);
 
 	bool execute();
 

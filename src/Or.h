@@ -2,27 +2,26 @@
  * File: Or.h
  * -------------------------
  *
- * Created by Rick Boshae on 10/30/2016
+ * Created by Rick Boshae on 11/10/2016
  *
  */
 
 #ifndef OR_H
 #define OR_H
 
-#include "Argument.h"
-
-class Or : public Argument
-
+#include "Command.h"
+//class Command;
+class Or : public Command
 {
 	protected:
-	//Argument* left_argument;
-	Argument* right_argument;
+	//Command class has a bool value called success that is inherited here.
+	Command* left_command;
+	Command* right_command;
 
 	public:
 	/* Contructors */
 	Or();
-	~Or();
-	Or(bool passed_run_status, Argument* y);
+	Or(Command* left_passed_command, Command* right_passed_command);
 
 	bool execute();
 

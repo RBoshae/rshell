@@ -11,6 +11,11 @@ BUGS AND TODO LIST:
 TODO:
 	fix quotation marks
 	add parentathesis
+	comments
+	test classs
+	semi colin
+	fix make file
+	
 
 Complete:
 	Argument class,
@@ -26,3 +31,4 @@ Bug Report:
 	execution returns an int to verify if we should run next child. If we have time we may want write a status function to do the same thing.
 	With quotation marks the 
 	no white space after the semi collen infinite loop initiated.
+	if || with exit. Like ( echo goodbye || exit) exit should not terminate

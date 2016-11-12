@@ -1,15 +1,14 @@
 /*
- * File: Statement.h
- * ---------------------
- * 
- * Created by Rick Boshae on 10/29/16.
- *
- */
+* File: Statement.h
+* ---------------------
+*
+* Created by Rick Boshae on 11/10/16.
+*
+*/
 
 #ifndef STATEMENT_H
 #define STATEMENT_H
-
-#include "Argument.h"
+#include "Command.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -24,21 +23,18 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-class Statement : public Argument {
-
+class Statement :
+	public Command
+{
 protected:
 	char* arg;
-	std::string statement;
-
+	std::string single_command; //stores string that will be passed to exec vp to run
 public:
-	/*Constructors*/
 	Statement();
-	Statement(std::string statement); //sets statement memeber
- 	~Statement();
+	Statement(std::string passed_in_command); //sets single_command data member
+	~Statement();
 
-	void print();
 	bool execute();
-
 };
 
 #endif

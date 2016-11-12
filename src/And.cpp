@@ -8,29 +8,22 @@
 
 #include "And.h"
 
-And::And()
+And::And(Command* left_passed_command, Command* right_passed_command)
 {
-}
-
-And::~And()
-{
-}
-
-And::And(bool passed_run_status, Argument* y)
-{
-	run_status = passed_run_status;
-	this->right_argument = y;
+	//run_status = passed_run_status;
+	this->left_command = left_passed_command;
+	this->right_command = right_passed_command;
 }
 
 bool And::execute()
 {	
-	//Always execute left_argument
-	//bool run_status = left_argument->execute();
+	//Always execute left_command
+	bool success = left_command->execute();
 	
-	//Only execute right_argument if left_argument is true
-	if(run_status == true)
+	//Only execute right_command if left_Command is true
+	if(success == true)
 	{
-		return right_argument->execute();
+		return right_command->execute();
 		
 	}
 	else return false;
