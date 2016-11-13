@@ -2,7 +2,7 @@
  * File: Parser.h
  * -------------------------
  *
- * Created by Rick Boshae and Sammy Macaluso on 11/07/2016
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/07/2016
  *
  */
 #ifndef PARSER_H
@@ -12,10 +12,12 @@
 #include "Statement.h"
 #include "And.h"
 #include "Or.h"
+#include "Semicolon.h"
 #include <vector>
 #include <string>
 #include <stdio.h>
 #include <cstring>
+
 //needed for vectorize
 #include <iostream>
 #include <algorithm> 
@@ -31,34 +33,16 @@ class Parser {
     private:
     vector<string> commands; //contains list of parsed arguments
     
-    //Various delimeters that we will search for in the parser
-    
-
     //helper function: vectorize will be called to store store a string into a vector
     void vecotrize(string user_input);
     
-    //protected:
-    //Commented out to try out new tree strategy
-    
-    //queue<string> queue_PostFix;
-    //stack<string> theStack;
-    
-    
-    
     public:
-    //parse will return a tree of type command to the caller
+    /* Constructos */
     Parser();
     ~Parser();
     
+    /*parse will return a tree of type command to the caller*/
     Command* parse(string user_input);
-    
-    
-    
-    
-    //more stuff that might not be used
-    //void execute();
-    //void userInfo();
-    
     
     
 };

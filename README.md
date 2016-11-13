@@ -9,24 +9,26 @@ BUGS AND TODO LIST:
 
 
 TODO:
-	fix quotation marks
-	add parentathesis
-	comments
-	test classs
-	semi colin
-	fix make file
+	(optional) fix quotation marks
+	Ignore comment functionality
+	Test class
 	
 
 Complete:
-	Argument class,
+	semi colin,
+	make file,
+	Parentathesis precedence,
+	Command class,
 	Statement class,
 	And class,
-	Parser,
+	Parser class,
 	Or class,
-	Container class (Possibly not needed),
-	Ignore comment functionality
+	
 
 Bug Report:
+	Trailing semicolon will break the code.
+	
+Resolved Bugs:
 	And class:
 	execution returns an int to verify if we should run next child. If we have time we may want write a status function to do the same thing.
 	With quotation marks the 

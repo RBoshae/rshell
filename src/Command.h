@@ -2,7 +2,7 @@
 * File: Command.h
 * ------------------
 *
-* Created by Rick Boshae on 11/10/16.
+* Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 10/29/16.
 *
 */
 
@@ -32,11 +32,9 @@
 //#include <boost/algorithm/string/split.hpp> // Include for boost::split
 
 
-//Abstract base class in rshell. 
+//Abstract base class for rshell. 
 class Command
 {
-private:
-
 protected:
 	bool success; //used to determine whether rhs command will execute. This will be dependent on the data type.
 public:

@@ -2,7 +2,7 @@
  * File: Semicolon.cpp
  * -------------------------
  *
- * Created by Rick Boshae on 10/30/2016
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 10/30/2016
  *
  */
 #include "Semicolon.h"

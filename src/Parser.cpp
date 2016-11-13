@@ -1,3 +1,12 @@
+/*
+ * File: Parser.cpp
+ * -------------------------
+ *
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/10/2016
+ * 
+ *
+ */
+
 #include "Parser.h"
 
 Parser::Parser()
@@ -101,19 +110,7 @@ void Parser::vecotrize(string user_input)
 
 Command* Parser::parse(string user_input)
 {
-    /*****************************************
-     * FOR TESTING
-     * --------------------------------------
-     * populates a vectorized command
-	 *****************************************/    
-   // commands.push_back("echo A");
-   //commands.push_back("&&");
-   // commands.push_back("echo B");
-   //commands.push_back("&&");
-	//commands.push_back("echo C");
-//	commands.push_back("&&");
-//	commands.push_back("echo D");
-    //***********end of testing****************
+
    vecotrize(user_input); 
     
     /**********************************************
@@ -123,13 +120,14 @@ Command* Parser::parse(string user_input)
 	 **********************************************/
     string and_delimeter = "&&";
     string or_delimeter = "||";
-    string arg_delimeter = ";";
+    string semicolon_delimeter = ";";
     string comment_delimeter = "#";
     string exiter = "exit";
+    string blank = "";
     
     string left_parentheses = "(";
     string right_parentheses = ")";
-   //***********end of Token Bank****************
+   //***********End of Token Bank****************
     
     
     Command* leftCmd; 
@@ -142,56 +140,79 @@ Command* Parser::parse(string user_input)
    
    
 	
-   /**************************************************************
+   /*****************************************************************************************************************************
      * Build Command Tree
      * ------------------------------------------------------------
      * Iterate through commands vector until it is empty. The loop
      * will contstruct a Command Tree based on the command or 
      * delimeter it receives.
      * 
-	 *************************************************************/
-   
+	 ****************************************************************************************************************************/
    for(unsigned int index = 0; index < commands.size(); index++)
    {
-   		// First Delimeter is parentheses
-   		if (left_parentheses.c_str() == commands.at(index))
+		//Workaround - Getting an empty string at index 0 for some reason. We may need to investigate the vectorize function.
+   		if (index > commands.size()) break;
+   		if (blank.c_str() == commands.at(index)) index++;
+   		if (index >= commands.size()) break;
+   		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   		
+   		
+   		
+   		
+   		
+   		
+   		//---------------------------------------------Parentheses Handler---------------------------------------------------
+   		if (left_parentheses.c_str() == commands.at(index)) //If commands at index is a parentheses jump in
    			{
-   				lp_count++;
-   				index++;//jump past left parentheses
+   				lp_count++; //increment left parentheses count
+   				index++;//now, jump past left parentheses
    				
-   				while (lp_count != rp_count)
+   				while (lp_count != rp_count)//run while left parentheses does not have a matching right parentheses
    				{
-   				if (commands.at(index) == left_parentheses.c_str()) lp_count++;
-   				if (commands.at(index) == right_parentheses.c_str()) rp_count++;
+   					if (commands.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
+   				
+   					if (commands.at(index) == right_parentheses.c_str()) rp_count++;//if we find a right parenthese, increment 
 
-   				//build a substring until hitting the right parentheses
-   				sub_command.append(commands.at(index));
-   				sub_command.append(" ");
-   				index++;
-   				if ((lp_count != rp_count) && ( commands.at(index) == right_parentheses.c_str())) rp_count++;
+	  				//build a substring until hitting the right parentheses
+   					sub_command.append(commands.at(index));
+   					sub_command.append(" ");
+   					index++;
+   					if ((lp_count != rp_count) && ( commands.at(index) == right_parentheses.c_str())) rp_count++;
    				
    				}
-   				//PRESERVED
+   				//PRESERVED For Testing
    				//echo A && (echo B && (echo C || echo D))
-   				//(echo B && (echo C && echo D))    (echo C && echo D)    
-   				//skip past right parentheses
-   				index++;
+   				//(echo B && (echo A && echo B))    (echo C && echo D)   
+   				//(echo A) && (echo B)
+   				
+   				if(index < commands.size() && (commands.at(index) == right_parentheses.c_str())) index++;//skip past right parentheses
    				
    				
-   				//recall parse
+   				//recursive call parse
    				Parser* sub_parser = new Parser();
-   				rightCmd = sub_parser->parse(sub_command); //expect command to be returned then store in tree
+   			
+   				leftCmd = sub_parser->parse(sub_command); //expect command to be returned then store in tree
+   				//if (index >= commands.size()) continue;
+   				//if (index >= commands.size()) break;
+   				//continue; // avoids out of bounds error when parser is returned
    				
-   				//add sub tree to regular tree
-   				leftCmd = new Or(leftCmd, rightCmd);
+   				sub_command = ""; //reset sub_command after use
    				
    			}
-   			//-----------------------END OF Parentheses
+   			//-----------------------END OF Parentheses---------------------------------------------------
+   			
+   			
+   			
    		
    		
    		
+ 	//---------------------------------------------Statement Handler---------------------------------------------------
    		//if commands at index is not a delimeter then it is a statement.
-   		if ((and_delimeter.c_str() != commands.at(index)) && (or_delimeter.c_str() != commands.at(index))
+   		if ((index < commands.size()) && (and_delimeter.c_str() != commands.at(index)) 
+   														  && (or_delimeter.c_str() != commands.at(index))
+   														  && (semicolon_delimeter.c_str() != commands.at(index))
+   														  && (blank.c_str() != commands.at(index))
+   														  && (index < commands.size())
    														  && (left_parentheses.c_str() != commands.at(index)))
    		{
    			leftCmd = new Statement(commands.at(index));
@@ -201,6 +222,10 @@ Command* Parser::parse(string user_input)
    			//handles the single command case.
    			if(index >= commands.size()) break; 
    		}
+   		//-----------------------END OF Statement---------------------------------------------------------------------
+   		
+   		
+   		
    		
    		/******************************Delimeter Cases********************************/
    		//If the command at index is a delimeter check which one it is and add the tree 
@@ -236,7 +261,7 @@ Command* Parser::parse(string user_input)
    				}
    				//PRESERVED
    				//echo A && (echo B && (echo C && echo D))
-   				//(echo B && (echo C && echo D))    (echo C && echo D)    
+   				//(echo B && (echo C && echo D))    (echo A && echo B)    
    				//skip past right parentheses
    				index++;
    				
@@ -247,6 +272,7 @@ Command* Parser::parse(string user_input)
    				
    				//add sub tree to regular tree
    				leftCmd = new And(leftCmd, rightCmd);
+   				sub_command = ""; //reset sub_command after use -- may be useless
    				
    			}
    		}
@@ -295,22 +321,53 @@ Command* Parser::parse(string user_input)
    				
    				//add sub tree to regular tree
    				leftCmd = new Or(leftCmd, rightCmd);
+   				sub_command = ""; //reset sub_command after use -- may be useless
+   				
+   				
    				
    			}
    		}
    		//------------------------------End of Or Case-------------------------------
-   
-   
-		/*if (left_parentheses.c_str() == commands.at(index))
+   		
+   		
+   		
+   		
+   		//--------------------------------Semicolon Case---------------------------------------
+   		
+   		//trailing semicolon hack
+   		if ((index < commands.size()) && (commands.at(commands.size() - 1) == semicolon_delimeter.c_str())) commands.at(commands.size() - 1) = ""; 
+   			
+   		if((index < commands.size()) && (semicolon_delimeter.c_str() == commands.at(index)))
+   		{
+   			index ++;//increment index to next delimeter
+   			//grab next string in index and stor it in  a statement
+   			if ( left_parentheses.c_str() != commands.at(index))
    			{
+   				rightCmd = new Statement(commands.at(index));
+   				leftCmd = new Semicolon(leftCmd, rightCmd);
+   			}
+   			
+   			//CHECKS FOR PARENTHESES
+   			else if (left_parentheses.c_str() == commands.at(index))
+   			{
+   				lp_count++;
    				index++;//jump past left parentheses
-   				while (right_parentheses.c_str() != commands.at(index))
+   				
+   				while (lp_count != rp_count)
    				{
+   				if (commands.at(index) == left_parentheses.c_str()) lp_count++;
+   				if (commands.at(index) == right_parentheses.c_str()) rp_count++;
+
    				//build a substring until hitting the right parentheses
    				sub_command.append(commands.at(index));
    				sub_command.append(" ");
    				index++;
+   				if ((lp_count != rp_count) && ( commands.at(index) == right_parentheses.c_str())) rp_count++;
+   				
    				}
+   				//PRESERVED
+   				//echo A && (echo B && (echo C || echo D))
+   				//(echo B && (echo C && echo D))    (echo C && echo D)    
    				//skip past right parentheses
    				index++;
    				
@@ -320,15 +377,17 @@ Command* Parser::parse(string user_input)
    				rightCmd = sub_parser->parse(sub_command); //expect command to be returned then store in tree
    				
    				//add sub tree to regular tree
-   				leftCmd = new Or(leftCmd, rightCmd);
+   				leftCmd = new Semicolon(leftCmd, rightCmd);
+   				
+   				sub_command = ""; //reset sub_command after use -- may be useless
    				
    			}
-   			*/
-   
-   		/*************************End of Delimeter Case**********************************/
+   		}
+   		//------------------------------End of Semicolon Case-------------------------------
+   		
+   		/*************************End of Delimeter Cases**********************************/
    		
   
-   	
    }//end of for loop, commands vector is now empty
     //*********************End of Command Tree Builder************
 

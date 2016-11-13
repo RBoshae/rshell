@@ -2,7 +2,7 @@
  * File: And.cpp
  * -------------------------
  *
- * Created by Rick Boshae on 10/30/2016
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 10/29/16.
  *
  */
 
@@ -22,9 +22,7 @@ bool And::execute()
 	
 	//Only execute right_command if left_Command is true
 	if(success == true)
-	{
 		return right_command->execute();
-		
-	}
-	else return false;
+	else 
+		return false;
 }

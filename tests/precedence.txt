@@ -1,0 +1,6 @@
+echo A B and C Not D && echo A && (echo B && (echo C || echo D))
+(echo A B and C will print && (echo A && echo B && echo C))
+(echo A && echo B) || (echo C && echo D)
+(echo A && echo B) && (echo C && echo D)
+(echo C && echo D)
+(exit)

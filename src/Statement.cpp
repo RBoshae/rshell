@@ -1,3 +1,12 @@
+/*
+* File: Statement.h
+* ------------------
+*
+* Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/07/16.
+*
+*/
+
+
 #include "Statement.h"
 
 
@@ -19,6 +28,24 @@ Statement::Statement(std::string passed_in_command)
 
 bool Statement::execute()
 {
+	/*********************************************************************************
+	 * RShell Exit Handlers
+	 * ------------------------------------------------------------------------------
+	 * If Statement object is an exit command it will exit here.
+	 * version without space is the normal case
+	 * We would expect exit to have a space at the end if it was nested in a parentheses.
+	 * Possible Revisions would be to trim the value of exit when it is passed in.
+     *********************************************************************************/
+	std::string exiter = "exit";
+	std::string exiter_with_space = "exit ";
+	if ((single_command.c_str() == exiter) || (single_command.c_str() == exiter_with_space)) exit (0);
+	
+	//****************************End of RShell Exit Handlers**************************
+	
+	
+	
+	
+	
 	//This is where syscalls stuff will come in 
 
 	//Break up string by spaces and store them in an array of characters
@@ -61,7 +88,7 @@ bool Statement::execute()
 		execvp(array[0], array);
 
 		//If execvp returns, it must have failed
-		std::cout << "Unkown command" << std::endl;
+		std::cout << "Unknown command" << std::endl;
 		success = false;
 		return false;
 	}

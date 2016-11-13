@@ -1,8 +1,8 @@
 /*
- * File: And.h
+ * File: Semicolon.h
  * -------------------------
  *
- * Created by Rick Boshae on 11/10/2016
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/10/2016
  *
  */
 

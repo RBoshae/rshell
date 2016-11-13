@@ -1,7 +1,7 @@
 /*
  * File: main.cpp
  * ----------------
- * Created by Rick Boshae on 10/29/16.
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 10/29/16.
  */
 #include <pwd.h>
 #include <unistd.h>
@@ -57,6 +57,7 @@ int main()
 		
 		myCmd = myParser->parse(user_input);
 		myCmd->execute();
+		user_input = ""; //reset value of user_input
 
 	}
 

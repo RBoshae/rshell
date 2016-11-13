@@ -2,7 +2,7 @@
  * File: Or.cpp
  * -------------------------
  *
- * Created by Salvatore Macaluso on 11/10/2016
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/10/2016
  *
  */
 
@@ -28,6 +28,6 @@ bool Or::execute()
 	if(success == true)
 		return true; //Left side ran fine, no need to run the second side
 	else
-	return right_command->execute(); //first command didnt run fine, 0 was not returned so run right side.
+		return right_command->execute(); //first command didnt run fine, 0 was not returned so run right side.
 	
 }
