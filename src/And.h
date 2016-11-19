@@ -26,7 +26,7 @@ class And :
 	~And() {};
 	And(Command* left_passed_command, Command* right_passed_command);
 
-	bool execute();
+	int execute();
 
 
 };

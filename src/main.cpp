@@ -42,22 +42,65 @@ void userInfo()
   cout << "$ ";
 }
 
+bool parentCheck(string user_input)
+{
+	int rp_count = 0;
+	int lp_count = 0;
+	
+	for(unsigned int i = 0; i < user_input.size(); i++)
+	{
+		if(user_input.at(i) == '(') lp_count++;
+		if(user_input.at(i) == ')') rp_count++;
+	}
+	if(lp_count == rp_count)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
 int main()
 {
 	string user_input = "";
+	string tmpInput;
+	
+	
+
 	
 	while(true)
 	{
-		userInfo();
-		
-		getline(cin, user_input);//getline will allow us to record and print the string in one line.
-		if(user_input == "exit") break;
-		
+    	userInfo();
+    	getline(cin, user_input);
+    	
+    	if((user_input == "") || (user_input.at(0) == '#')) continue;
+    	
+    	while(true)
+    	{
+    		
+    		if(parentCheck(user_input))
+    		{
+    			break;
+    		}
+    		else
+    		{
+    			cout << "> ";
+    			getline(cin, tmpInput);
+    			user_input += tmpInput;
+    			
+    			/////////////////
+    			tmpInput.clear();//clear user input
+    		}
+    	}
+    	
 		Parser* myParser = new Parser();
 		
 		myCmd = myParser->parse(user_input);
 		myCmd->execute();
-		user_input = ""; //reset value of user_input
+		//user_input = ""; //reset value of user_input
+		
+		if(user_input == "exit") exit(0);
+		user_input.clear();
 
 	}
 

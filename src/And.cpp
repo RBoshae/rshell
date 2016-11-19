@@ -15,14 +15,14 @@ And::And(Command* left_passed_command, Command* right_passed_command)
 	this->right_command = right_passed_command;
 }
 
-bool And::execute()
+int And::execute()
 {	
 	//Always execute left_command
-	bool success = left_command->execute();
+	int success = left_command->execute();
 	
 	//Only execute right_command if left_Command is true
-	if(success == true)
+	if(success == 0)
 		return right_command->execute();
 	else 
-		return false;
+		return 1;
 }

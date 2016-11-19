@@ -9,6 +9,7 @@
 #ifndef SEMICOLON_H
 #define SEMICOLON_H
 
+#include <iostream>
 #include "Command.h"
 
 class Semicolon : 
@@ -25,8 +26,9 @@ class Semicolon :
 	Semicolon() {};
 	~Semicolon() {};
 	Semicolon(Command* left_passed_command, Command* right_passed_command);
-
-	bool execute();
+	
+	//This command returns 0 (TRUE) if succeeds and 1 (FALSE) if fails.
+	int execute();
 
 
 };

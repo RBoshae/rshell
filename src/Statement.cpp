@@ -26,7 +26,7 @@ Statement::Statement(std::string passed_in_command)
 	return;
 }
 
-bool Statement::execute()
+int Statement::execute()
 {
 	/*********************************************************************************
 	 * RShell Exit Handlers
@@ -49,20 +49,19 @@ bool Statement::execute()
 	//This is where syscalls stuff will come in 
 
 	//Break up string by spaces and store them in an array of characters
-
+	//std::cout << "You are in statement here is what I have: '" << single_command << "'" << std::endl;
 	arg = new char[single_command.length() + 1];
 	std::strcpy(arg, single_command.c_str());
 
 	//arg now contains a c-string copy of statement
 
 	char * tokenized_arg = std::strtok(arg, " ");
-	char * array[100];
+	char * array[1000];
 
 	int i = 0;
 	int status;
-	char comment[] = "#";
 
-	while ((tokenized_arg != 0) && (std::strcmp(comment, tokenized_arg) != 0))
+	while (tokenized_arg != 0)
 	{
 		array[i++] = tokenized_arg;
 		tokenized_arg = std::strtok(NULL, " ");
@@ -78,8 +77,8 @@ bool Statement::execute()
 
 	if (child_pid == -1)
 	{
-		success = false;
-		return false;
+		success = 1;
+		return 1;
 	}
 
 	if (child_pid == 0) {//This is the child process
@@ -89,18 +88,21 @@ bool Statement::execute()
 
 		//If execvp returns, it must have failed
 		std::cout << "Unknown command" << std::endl;
-		success = false;
-		return false;
+		success = 1;
+		exit(0);//exit child process.
+		return 1;
 	}
 	else { //This is the parent process
 		   //This is run by the parent. Wait for the child to terminate.
 		waitpid(child_pid, &status, 0);//wait for the child process to return
+		//std::cout << "int status of execvp call: " << status << std::endl;
+		if (status != 0) return 1;
 	}
 
 	//Kill Child
 	kill(child_pid, SIGKILL);
 
-	success = true;
-	return true;
+	success = 0;
+	return 0;
 
 }

@@ -1,7 +1,7 @@
 COMPILE = g++
 FLAGS =-Wall -Werror -ansi -pedantic
 
-OBJS = ./bin/Command.o ./bin/And.o ./bin/Or.o ./bin/Statement.o ./bin/Semicolon.o ./bin/Parser.o
+OBJS = ./bin/Command.o ./bin/And.o ./bin/Or.o ./bin/Statement.o ./bin/Semicolon.o ./bin/Parser.o ./bin/Test.o
 
 all: ./src/main.cpp $(OBJS)
 	$(COMPILE) $(FLAGS) -g ./src/main.cpp $(OBJS) -o ./bin/rshell
@@ -23,5 +23,8 @@ all: ./src/main.cpp $(OBJS)
 
 ./bin/Parser.o: ./src/Parser.h ./src/Parser.h ./src/Parser.cpp
 	$(COMPILE) $(FLAGS) -c ./src/Parser.cpp -o ./bin/Parser.o
+
+./bin/Test.o: ./src/Test.h ./src/Test.h ./src/Test.cpp
+	$(COMPILE) $(FLAGS) -c ./src/Test.cpp -o ./bin/Test.o
 clean:
 	rm -rf ./bin/

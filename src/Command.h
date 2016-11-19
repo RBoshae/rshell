@@ -36,13 +36,14 @@
 class Command
 {
 protected:
-	bool success; //used to determine whether rhs command will execute. This will be dependent on the data type.
+	int success; //used to determine whether rhs command will execute. This will be dependent on the data type.
 public:
 	/* Contructors */
 	Command();
 	~Command();
-
-	virtual bool execute() = 0;
+	
+	//This command returns 0 (TRUE) if succeeds and 1 (FALSE) if fails. 
+	virtual int execute() = 0;
 };
 
 #endif 

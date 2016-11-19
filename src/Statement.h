@@ -34,7 +34,7 @@ public:
 	Statement(std::string passed_in_command); //sets single_command data member
 	~Statement();
 
-	bool execute();
+	int execute();
 };
 
 #endif

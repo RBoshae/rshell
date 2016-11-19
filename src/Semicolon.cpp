@@ -14,7 +14,7 @@ Semicolon::Semicolon(Command* left_passed_command, Command* right_passed_command
 	this->right_command = right_passed_command;
 }
 
-bool Semicolon::execute()
+int Semicolon::execute()
 {	
 	//Always execute left_command
 	left_command->execute();

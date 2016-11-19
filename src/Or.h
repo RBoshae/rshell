@@ -23,7 +23,8 @@ class Or : public Command
 	Or();
 	Or(Command* left_passed_command, Command* right_passed_command);
 
-	bool execute();
+	//This command returns 0 (TRUE) if succeeds and 1 (FALSE) if fails.
+	int execute();
 
 
 };
