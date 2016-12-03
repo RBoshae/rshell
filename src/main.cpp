@@ -22,24 +22,31 @@ using namespace std;
 
 Command* myCmd;
 
-
+//0 = true 1 = false
 void userInfo()
 {
 	//get the users name
-  register struct passwd *p;
-  register uid_t uid;
-  uid = geteuid ();
-  p = getpwuid (uid);
-  if (p)
-    {
-      cout << p->pw_name;
-    }
-  //get the users hostname
-  char host[500];
-  host[499] = '\0';
-  gethostname(host, 499);
-  printf("@%s", host);
-  cout << "$ ";
+  // register struct passwd *p;
+  // register uid_t uid;
+  // uid = geteuid ();
+  // p = getpwuid (uid);
+  // if (p)
+  //   {
+  //     cout << p->pw_name;
+  //   }
+  // //get the users hostname
+  // char host[500];
+  // host[499] = '\0';
+  // gethostname(host, 499);
+  // printf("@%s", host);
+  
+  ///Everything below is updatingn current PWD
+	char* hPath;
+	hPath = getenv("PWD");
+	if (hPath!=NULL)
+  		printf (":~%s",hPath);
+  
+	cout << " $ ";
 }
 
 bool parentCheck(string user_input)
@@ -64,13 +71,13 @@ int main()
 {
 	string user_input = "";
 	string tmpInput;
-	
-	
+
 
 	
 	while(true)
 	{
     	userInfo();
+    	
     	getline(cin, user_input);
     	
     	if((user_input == "") || (user_input.at(0) == '#')) continue;

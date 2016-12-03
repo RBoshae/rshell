@@ -22,6 +22,7 @@
 #include "And.h"
 #include "Or.h"
 #include "Test.h"
+#include "Cd.h"
 #include "Semicolon.h"
 #include <vector>
 #include <string>

@@ -4,9 +4,5 @@
 
 Command::Command()
 {
-}
-
-
-Command::~Command()
-{
+    
 }

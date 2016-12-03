@@ -390,8 +390,7 @@ Command* Parser::parse(string user_input)
 
    			}
    			//-----------------------END OF Parentheses---------------------------------------------------
-   			
-   			
+   		
 		//first Statement Build
  		//---------------------------------------------Statement Handler---------------------------------------------------
    		//if commands at index is not a delimeter then it is a statement.
@@ -414,6 +413,11 @@ Command* Parser::parse(string user_input)
    			if(commands[index][0] == '[' || commands.at(index).compare(0,4,"test") == 0)
    			{
    				leftCmd = new Test(commands.at(index));
+   				index++;
+   			}
+   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd') && ((commands[index].size() == 2) || (commands[index][2] == ' ')))//added for cd assignment
+   			{
+   				leftCmd = new Cd(commands.at(index));
    				index++;
    			}
    			else //its a normal statement
@@ -451,6 +455,11 @@ Command* Parser::parse(string user_input)
 	   				rightCmd = new Test(commands.at(index));
    					leftCmd = new And(leftCmd, rightCmd);
 	   			}
+	   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd'))//added for cd assignment
+	   			{
+	   				rightCmd = new Cd(commands.at(index));
+	   				leftCmd = new And(leftCmd, rightCmd);
+	   			}
 	   			else //its a normal statement
 	   			{
 		   			rightCmd = new Statement(commands.at(index));
@@ -482,6 +491,11 @@ Command* Parser::parse(string user_input)
 	   			{
 	   				rightCmd = new Test(commands.at(index));
    					leftCmd = new Or(leftCmd, rightCmd);
+	   			}
+	   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd'))//added for cd assignment
+	   			{
+	   				rightCmd = new Cd(commands.at(index));
+	   				leftCmd = new And(leftCmd, rightCmd);
 	   			}
 	   			else //its a normal statement
 	   			{
@@ -522,6 +536,11 @@ Command* Parser::parse(string user_input)
 	   			{
 	   				rightCmd = new Test(commands.at(index));
    					leftCmd = new Semicolon(leftCmd, rightCmd);
+	   			}
+	   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd'))//added for cd assignment
+	   			{
+	   				rightCmd = new Cd(commands.at(index));
+	   				leftCmd = new And(leftCmd, rightCmd);
 	   			}
 	   			else //its a normal statement
 	   			{
@@ -576,7 +595,7 @@ unsigned int Parser::build_parentheses(unsigned int index)
    	lp_count++; //increment left parentheses count
    	index++;//now, jump past left parentheses
    	
-   	while (lp_count != rp_count)//run while left parentheses does not have a matching right parentheses
+   	/*while (lp_count != rp_count)//run while left parentheses does not have a matching right parentheses
    	{
    		if (commands.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
    	
@@ -592,6 +611,41 @@ unsigned int Parser::build_parentheses(unsigned int index)
  
    	if(index < commands.size() && (commands.at(index) == right_parentheses.c_str())) index++;//skip past right parentheses
    	
+   	*/
+   	
+   	
+   	
+   	
+   		while (lp_count != rp_count)//run while left parentheses does not have a matching right parentheses
+	   	{
+	   		if (commands.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
+	   	
+	   		if (commands.at(index) == right_parentheses.c_str()) rp_count++;//if we find a right parenthese, increment 
+	
+	  		//build a substring until hitting the right parentheses
+	   	
+	   		if (lp_count != rp_count)
+	   		{
+		   		sub_command.append(commands.at(index));
+		   		//sub_command.append(" ");
+	   		}
+	   		index++;
+	   		
+	   		/*if ((lp_count != rp_count) && ( commands.at(index) == right_parentheses.c_str()))
+   			{
+   				rp_count++;
+   			}*/
+	   	
+	   	}
+	 
+	   	if(index < commands.size() && (commands.at(index) == right_parentheses.c_str())) 
+	   	{
+	   		index++;//skip past right parentheses
+	   	}
+	   	
+	   	lp_count = 0; //reset sub_command after use
+	   	rp_count = 0; //reset sub_command after use
+	   	
    	
    	//recursive call parse -- takes care of nested parentheses
    	Parser* sub_parser = new Parser();
