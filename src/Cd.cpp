@@ -84,7 +84,7 @@ int Cd::execute()
       // cout << "pPath is: "<< pPath << endl;
 
 	  	ret = chdir(pPath);
-	  	cout << ret << endl;
+	//  	cout << ret << endl;
 	  	if(ret < 0)
 	  	{
 	  	  return 1; //error 
