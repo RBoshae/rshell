@@ -1,0 +1,10 @@
+ls #this is a comment
+ls # && ls
+echo hello || #echo world
+echo someword && # echo Crites
+echo Started from # the bottom here
+echo #now we here
+#
+#this is a comment
+#ehco a
+exit

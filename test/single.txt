@@ -1,0 +1,15 @@
+echo Hello World
+ls -a
+ls -l
+echo hurray
+ls
+ls -al
+ls -j
+echo A
+echo AB CD
+help help
+pwd
+echo echo
+echa AB
+cal
+exit

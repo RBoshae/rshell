@@ -1,0 +1,8 @@
+cd
+cd workspace
+cd bin/stuff
+cd ..
+cd -
+cd -
+cd stuff
+exit

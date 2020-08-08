@@ -1,0 +1,21 @@
+test ../src/And.cpp
+test -e ../bin/And.o
+test -d ../bin/And.o
+test -f ../bin/And.o
+test -e ../bin/stuff
+test -f ../bin/stuff
+test -d ../bin/stuff
+[ ../src/And.cpp ]
+[ -e ../bin/And.o ]
+[ -d ../bin/And.o ]
+[ -f ../bin/And.o ]
+[ -e ../bin/stuff ]
+[ -f ../bin/stuff ]
+[ -d ../bin/stuff ]
+[ -e ../bin/And.o
+[ -e ../bin/And.o && echo a
+[ -e ../bin/And.o || echo a
+([ ../src/And.cpp ] && echo a) && ([ ../src/And.cpp ] && (echo b && echo c))
+([ ../src/And.cpp ] && echo a) && ([ ../src/And.cpp ] && (echo b || echo you failed))
+test -e /test/file/path && echo “path exists”
+exit
