@@ -30,4 +30,4 @@ all: ./src/main.cpp $(OBJS)
 ./bin/Test.o: ./src/Test.h ./src/Test.h ./src/Test.cpp
 	$(COMPILE) $(FLAGS) -c ./src/Test.cpp -o ./bin/Test.o
 clean:
-	rm -rf ./bin/
+	rm -rf ./bin/*
