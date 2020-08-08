@@ -43,15 +43,14 @@ Navigate to rshell's top level directory and use ```make``` to build the it.
 make
 ```
 
-Assuming all went well, the rshell executable should be located in the bin
-subdirectory. Navigate to the bin subdirectory and execute the rshell
+Assuming all went well, you are now ready to run rshell. The rshell executable 
+is located in the bin subdirectory. Navigate to the bin subdirectory to run the program
 program.
 
 ```
 cd bin
 ./rshell
 ```
-You are now ready to run rshell.
 
 # Some Notes on the Code
 A primary objective in creating rshell was implementing common design 
