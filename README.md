@@ -18,6 +18,21 @@ assignment for CS100 Software Construction at
 
 
 # Getting rshell up and Running on Your Machine
+
+## Requirements
+* Linux based operating system
+* Boost Library, used in the Parser class.
+
+Refer to [Boost's Getting Started](https://www.boost.org/doc/libs/1_73_0/more/getting_started/unix-variants.html) 
+page for information on installing boost on your machine.
+
+If you happen to use Ubuntu you can enter the following command in your 
+terminal to obtain a copy of the boost library.
+```
+sudo apt-get install libboost-all-dev
+```
+
+## Install Instructions
 Start by cloning the project to your local machine
 ```
 git clone https://github.com/RBoshae/rshell.git
