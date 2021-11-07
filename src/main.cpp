@@ -1,52 +1,55 @@
 /*
  * File: main.cpp
  * ----------------
- * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 10/29/16.
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 
+ * 10/29/16.
  */
-#include <pwd.h>
-#include <unistd.h>
-#include <stdio.h>
+#include <algorithm> 
 #include <iostream>
-#include <stdlib.h>
 #include <climits>
 #include <cstring>
+#include <pwd.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string>
-#include "Command.h"
-#include "Statement.h"
-#include "Parser.h"
+#include <unistd.h>
+
 #include "And.h"
+#include "Command.h"
 #include "Or.h"
-#include <algorithm> 
+#include "Parser.h"
+#include "Statement.h"
 
 using namespace std;
 
-Command* myCmd;
+Command* command;
 
 //0 = true 1 = false
-void userInfo()
+void UserInfo()
 {
-	//get the users name
-  // register struct passwd *p;
-  // register uid_t uid;
-  // uid = geteuid ();
-  // p = getpwuid (uid);
-  // if (p)
-  //   {
-  //     cout << p->pw_name;
-  //   }
-  // //get the users hostname
-  // char host[500];
-  // host[499] = '\0';
-  // gethostname(host, 499);
-  // printf("@%s", host);
+  // Get user name
+  register struct passwd *p;
+  register uid_t uid;
+  uid = geteuid();
+  p   = getpwuid (uid);
+  if (p) {
+    cout << p->pw_name;
+  }
   
-  ///Everything below is updatingn current PWD
-	char* hPath;
-	hPath = getenv("PWD");
-	if (hPath!=NULL)
-  		printf (":~%s",hPath);
+  // Get user hostname
+  char host[500];
+  host[499] = '\0';
+  gethostname(host, 499);
+  printf("@%s", host);
   
-	cout << " $ ";
+  ///Everything below is updating current PWD
+  char* hPath;
+  hPath = getenv("PWD");
+  if (hPath != NULL) {
+    printf (":~%s",hPath);
+  }
+
+  cout << " $ ";
 }
 
 bool parentCheck(string user_input)
@@ -69,14 +72,12 @@ bool parentCheck(string user_input)
 
 int main()
 {
-	string user_input = "";
-	string tmpInput;
-
-
+  string user_input = "";
+  string temp_input = "";
 	
 	while(true)
 	{
-    	userInfo();
+    	UserInfo();
     	
     	getline(cin, user_input);
     	
@@ -92,18 +93,18 @@ int main()
     		else
     		{
     			cout << "> ";
-    			getline(cin, tmpInput);
-    			user_input += tmpInput;
+    			getline(cin, temp_input);
+    			user_input += temp_input;
     			
     			/////////////////
-    			tmpInput.clear();//clear user input
+    			temp_input.clear();//clear user input
     		}
     	}
     	
 		Parser* myParser = new Parser();
 		
-		myCmd = myParser->parse(user_input);
-		myCmd->execute();
+		command = myParser->parse(user_input);
+		command->execute();
 		//user_input = ""; //reset value of user_input
 		
 		if(user_input == "exit") exit(0);
