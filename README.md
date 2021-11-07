@@ -115,5 +115,5 @@ Precedence ```(echo a && (echo b || (echo c && echo d))) = unknown command```
 
 ## Authors
 
-* [Rick Boshae](https://www.rboshae.github.io)
+* [Rick Boshae](https://rboshae.github.io)
 * [Sammy Macaluso](https://www.linkedin.com/in/sammy-macaluso/)
