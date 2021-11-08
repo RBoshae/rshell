@@ -1,7 +1,7 @@
 COMPILE = g++
-FLAGS = -std=c++17 -Wall -Werror -ansi -pedantic
+FLAGS = -std=c++11 -Wall -ansi -pedantic
 
-OBJS = ./bin/command.o ./bin/And.o ./bin/Cd.o ./bin/Or.o ./bin/Statement.o ./bin/Semicolon.o ./bin/Parser.o ./bin/Test.o
+OBJS = ./bin/command.o ./bin/and.o ./bin/cd.o ./bin/or.o ./bin/statement.o ./bin/semicolon.o ./bin/parser.o ./bin/test.o
 
 all: ./src/main.cpp $(OBJS)
 	$(COMPILE) $(FLAGS) -g ./src/main.cpp $(OBJS) -o ./bin/rshell
@@ -9,25 +9,25 @@ all: ./src/main.cpp $(OBJS)
 ./bin/command.o: ./src/command.h ./src/command.cpp
 	$(COMPILE) $(FLAGS) -c ./src/command.cpp -o ./bin/command.o
 
-./bin/And.o: ./src/command.h ./src/And.h ./src/And.cpp
-	$(COMPILE) $(FLAGS) -c ./src/And.cpp -o ./bin/And.o
+./bin/and.o: ./src/command.h ./src/and.h ./src/and.cpp
+	$(COMPILE) $(FLAGS) -c ./src/and.cpp -o ./bin/and.o
 
-./bin/Cd.o: ./src/command.h ./src/Cd.h ./src/Cd.cpp
-	$(COMPILE) $(FLAGS) -c ./src/Cd.cpp -o ./bin/Cd.o
+./bin/cd.o: ./src/command.h ./src/cd.h ./src/cd.cpp
+	$(COMPILE) $(FLAGS) -c ./src/cd.cpp -o ./bin/cd.o
 
-./bin/Or.o: ./src/command.h ./src/Or.h ./src/Or.cpp
-	$(COMPILE) $(FLAGS) -c ./src/Or.cpp -o ./bin/Or.o
+./bin/or.o: ./src/command.h ./src/or.h ./src/or.cpp
+	$(COMPILE) $(FLAGS) -c ./src/or.cpp -o ./bin/or.o
 
-./bin/Statement.o: ./src/command.h ./src/Statement.h ./src/Statement.cpp
-	$(COMPILE) $(FLAGS) -c ./src/Statement.cpp -o ./bin/Statement.o
+./bin/statement.o: ./src/command.h ./src/statement.h ./src/statement.cpp
+	$(COMPILE) $(FLAGS) -c ./src/statement.cpp -o ./bin/statement.o
 	
-./bin/Semicolon.o: ./src/command.h ./src/Semicolon.h ./src/Semicolon.cpp
-	$(COMPILE) $(FLAGS) -c ./src/Semicolon.cpp -o ./bin/Semicolon.o
+./bin/semicolon.o: ./src/command.h ./src/semicolon.h ./src/semicolon.cpp
+	$(COMPILE) $(FLAGS) -c ./src/semicolon.cpp -o ./bin/semicolon.o
 
-./bin/Parser.o: ./src/Parser.h ./src/Parser.h ./src/Parser.cpp
-	$(COMPILE) $(FLAGS) -c ./src/Parser.cpp -o ./bin/Parser.o
+./bin/parser.o: ./src/parser.h ./src/parser.h ./src/parser.cpp
+	$(COMPILE) $(FLAGS) -c ./src/parser.cpp -o ./bin/parser.o
 
-./bin/Test.o: ./src/Test.h ./src/Test.h ./src/Test.cpp
-	$(COMPILE) $(FLAGS) -c ./src/Test.cpp -o ./bin/Test.o
+./bin/test.o: ./src/test.h ./src/test.h ./src/test.cpp
+	$(COMPILE) $(FLAGS) -c ./src/test.cpp -o ./bin/test.o
 clean:
 	rm -rf ./bin/*

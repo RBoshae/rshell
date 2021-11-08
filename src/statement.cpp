@@ -5,29 +5,21 @@
 * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/07/16.
 *
 */
+#include "statement.h"
 
-
-#include "Statement.h"
-
-
-
-Statement::Statement()
-{
+Statement::Statement() {
 }
 
 
-Statement::~Statement()
-{
+Statement::~Statement() {
 }
 
-Statement::Statement(std::string passed_in_command)
-{
-	this->single_command = passed_in_command;
+Statement::Statement(std::string command) {
+	this->single_command_ = command;
 	return;
 }
 
-int Statement::execute()
-{
+bool Statement::Execute() {
 	/*********************************************************************************
 	 * RShell Exit Handlers
 	 * ------------------------------------------------------------------------------
@@ -38,20 +30,16 @@ int Statement::execute()
      *********************************************************************************/
 	std::string exiter = "exit";
 	std::string exiter_with_space = "exit ";
-	if ((single_command.c_str() == exiter) || (single_command.c_str() == exiter_with_space)) exit (0);
+	if ((single_command_.c_str() == exiter) || (single_command_.c_str() == exiter_with_space)) exit (0);
 	
 	//****************************End of RShell Exit Handlers**************************
-	
-	
-	
-	
 	
 	//This is where syscalls stuff will come in 
 
 	//Break up string by spaces and store them in an array of characters
 	//std::cout << "You are in statement here is what I have: '" << single_command << "'" << std::endl;
-	arg = new char[single_command.length() + 1];
-	std::strcpy(arg, single_command.c_str());
+	arg = new char[single_command_.length() + 1];
+	std::strcpy(arg, single_command_.c_str());
 
 	//arg now contains a c-string copy of statement
 
@@ -61,8 +49,7 @@ int Statement::execute()
 	int i = 0;
 	int status;
 
-	while (tokenized_arg != 0)
-	{
+	while (tokenized_arg != 0) {
 		array[i++] = tokenized_arg;
 		tokenized_arg = std::strtok(NULL, " ");
 	}
@@ -75,8 +62,7 @@ int Statement::execute()
 	//create child process
 	child_pid = fork();
 
-	if (child_pid == -1)
-	{
+	if (child_pid == -1) {
 		success = 1;
 		return 1;
 	}

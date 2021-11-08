@@ -6,24 +6,25 @@
 *
 */
 
-#ifndef TEST_H
-#define TEST_H
+#pragma once
+
 #include <iostream>
-#include "command.h"
 #include <string>
+
 //Libraries needed for stat()
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include <cstring>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+#include "command.h"
 
 using namespace std;
 
-class Test : public Command
-{
+class Test : public Command {
 protected:
 	std::string single_command; 
 	char* arg;
@@ -33,7 +34,5 @@ public:
 	~Test();
 	
 	//This command returns 0 (TRUE) if succeeds and 1 (FALSE) if fails. Also prints the true or false value.
-	int execute();
+	bool Execute() override;
 };
-
-#endif

@@ -24,18 +24,16 @@
 
 using namespace std;
 
-class Cd : public Command
-{
-protected:
-	std::string single_command; 
-	char* arg;
-public:
+class Cd : public Command {
+ public:
 	Cd();
 	Cd(std::string passed_in_command); 
 	~Cd();
 	
-	//This command returns 0 (TRUE) if succeeds and 1 (FALSE) if fails. Also prints the true or false value.
-	int execute();
+	bool Execute() override;
+ protected:
+	std::string single_command_; 
+	char* arg;
 };
 
 #endif

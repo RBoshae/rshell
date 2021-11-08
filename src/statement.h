@@ -23,17 +23,17 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-class Statement : public Command
-{
-protected:
-	char* arg;
-	std::string single_command; //stores string that will be passed to exec vp to run
-public:
+class Statement : public Command {
+ public:
 	Statement();
 	Statement(std::string passed_in_command); //sets single_command data member
 	~Statement();
 
-	int execute();
+	bool Execute() override;
+ 
+ protected:
+	char* arg;
+	std::string single_command_; //stores string that will be passed to exec vp to run
 };
 
 #endif

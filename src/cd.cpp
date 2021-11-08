@@ -5,48 +5,39 @@
 * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/28/16.
 *
 */
+#include "cd.h"
 
-
-#include "Cd.h"
-
-
-
-Cd::Cd()
-{
+Cd::Cd() {
 }
 
-
-Cd::~Cd()
-{
+Cd::~Cd() {
 }
 
-Cd::Cd(std::string passed_in_command)
-{
-	this->single_command = passed_in_command;
+Cd::Cd(std::string passed_in_command) {
+	this->single_command_ = passed_in_command;
 	return;
 }
 
-int Cd::execute()
-{
+bool Cd::Execute() {
     //cout << "CD is working" << endl;
     //cout << "contents of single_command: " << single_command << endl;
     int ret;
     int i = 0;
 		
 		//delete rogue space at the end of string
-		if(single_command.at(single_command.size() - 1) == ' ')
-		  single_command.erase((single_command.size() - 1), 1);
+		if(single_command_.at(single_command_.size() - 1) == ' ')
+		  single_command_.erase((single_command_.size() - 1), 1);
     
     //part a) cd <PATH> will change the current working directory to <PATH>
-    if (single_command.size() > 2 && single_command.at(3) != '-') 
+    if (single_command_.size() > 2 && single_command_.at(3) != '-') 
     {
       //cout << "cd has a path" << endl;
-      single_command = single_command.substr(3, single_command.size() - 1);
-      if(single_command.at(0) != '/')
-        single_command.insert(0, "/");
+      single_command_ = single_command_.substr(3, single_command_.size() - 1);
+      if(single_command_.at(0) != '/')
+        single_command_.insert(0, "/");
       
-  		arg = new char[single_command.length() + 1];
-  		strcpy(arg, single_command.c_str());
+  		arg = new char[single_command_.length() + 1];
+  		strcpy(arg, single_command_.c_str());
   		
   		//arg now contains a c-string copy of statement
   		  //Tokenizer from Statement.cpp
@@ -58,8 +49,6 @@ int Cd::execute()
   			arg = std::strtok(NULL, " ");
   		}
   		array[i] = NULL;
-  		
-		  
 		  
 		  char* pPath;
 		  char* lastPath;
@@ -126,7 +115,7 @@ int Cd::execute()
     }
     
     //part b) cd (alone) will change the current working directory to the user's home directory
-    else if (single_command.size() == 2) {
+    else if (single_command_.size() == 2) {
       //cout << "cd alone" << endl;
       char* pPath; //represents future path
       char* lastPath;
@@ -154,7 +143,7 @@ int Cd::execute()
     }
     
     //part c) will change the current working directory to the previous working directory //cd -a
-    else if (single_command.size() <= 5 && single_command.at(3) == '-') 
+    else if (single_command_.size() <= 5 && single_command_.at(3) == '-') 
     {
       //cout << "cd back to pwd" << endl;
       char* pPath;
@@ -190,10 +179,6 @@ int Cd::execute()
 /*    cd_history.push_back("hellloooooo");
     cd_history.push_back("2");
     cout << cd_history.back() << endl;*/
-    
-    
-    
-    
     
     return 0;
 }

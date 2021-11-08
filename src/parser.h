@@ -13,20 +13,19 @@
 #include <vector>
 #include <string>
 #include <cstring>
-//needed for vectorize
 #include <iostream>
 #include <algorithm> 
 
 #include <boost/algorithm/string/classification.hpp> // Include boost::for is_any_of
 #include <boost/algorithm/string/split.hpp> // Include for boost::split
 
-#include "And.h"
-#include "Cd.h"
+#include "and.h"
+#include "cd.h"
 #include "command.h"
-#include "Or.h"
-#include "Semicolon.h"
-#include "Statement.h"
-#include "Test.h"
+#include "or.h"
+#include "semicolon.h"
+#include "statement.h"
+#include "test.h"
 
 using namespace std;
 //forward declaration

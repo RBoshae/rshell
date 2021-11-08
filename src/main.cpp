@@ -12,12 +12,12 @@
 
 #include <stdio.h>
 
-#include "And.h"
+#include "and.h"
 #include "command.h"
-#include "Or.h"
-#include "Parser.h"
+#include "or.h"
+#include "parser.h"
 #include "shell-utilities.h"
-#include "Statement.h"
+#include "statement.h"
 
 using namespace std;
 
@@ -53,7 +53,7 @@ int main() {
 		}    	
 		
 		command = parser->parse(input);
-		command->execute();
+		command->Execute();
 		
 		if(input == "exit") exit(0);
 		input.clear();

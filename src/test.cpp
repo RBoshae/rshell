@@ -7,26 +7,21 @@
 */
 
 
-#include "Test.h"
+#include "test.h"
 
-
-
-Test::Test()
-{
+Test::Test() {
 }
 
 
-Test::~Test()
-{
+Test::~Test() {
 }
 
-Test::Test(std::string passed_in_command)
-{
-	this->single_command = passed_in_command;
+Test::Test(std::string command) {
+	this->single_command = command;
 	return;
 }
 
-int Test::execute()
+bool Test::Execute()
 {
     struct stat sb;
     string default_flag = "-e ";

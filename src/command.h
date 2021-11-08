@@ -17,11 +17,11 @@ class Command {
  public:
 	Command();
 	
-	//This command returns 0 (TRUE) if succeeds and 1 (FALSE) if fails. 
-	virtual int execute() = 0;
+	// Execute returns true if success otherwise false. 
+	virtual bool Execute() = 0;
 
 protected:
 
-	int success; // used to determine whether rhs command will execute. This will be dependent on the data type.
+	bool success; 
 	std::vector<std::string> cd_history;
 };
