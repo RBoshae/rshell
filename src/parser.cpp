@@ -9,18 +9,15 @@
 
 #include "parser.h"
 
-Parser::Parser()
-{
+Parser::Parser() {
 
 }
 
-Parser::~Parser()
-{
+Parser::~Parser() {
 
 }
 
-void Parser::vectorize(string user_input)
-{
+void Parser::Vectorize(string user_input) {
 	//
 	string tmp, tmp2;
 	size_t foundSemi, foundSemi2;
@@ -30,122 +27,119 @@ void Parser::vectorize(string user_input)
 	size_t foundRP, foundRP2;
 	size_t foundLP, foundLP2;
 	
-	//cout << "Passed in user_input:" << "'" << user_input << "'" <<endl;
+	// If the first thing inputs is nothing. Add a space
+	if (user_input == "") {
+		user_input = " ";
+	}  
 	
-	//if the first thing inputs is nothing. Add a space
-	if(user_input == "") user_input = " "; 
-	
-	//if the first thing typed is a comment delete everything
-	if(user_input.at(0) == '#') 
-	{
+	// If the first thing typed is a comment delete everything
+	if (user_input.at(0) == '#') {
 		user_input = " ";
 	}
-	//hunt down comments that arnt nested in quotes and DELETE YUM YUM YUM
-	for(unsigned int i = 0; i < user_input.size(); i++)
-	{
-		//find and deal with comments
-		if(user_input.at(i) == '#')
-		{
+
+	// Hunt down comments that aren't nested in quotes and DELETE YUM YUM YUM
+	for (unsigned int i = 0; i < user_input.size(); i++) {
+		
+		// Find and deal with comments
+		if (user_input.at(i) == '#') {
 			int quot_It = 0;
+
 			//checks to see if its nested inside a quotation mark.
-			if(user_input.at(i-1) == '"') continue;
-			for(unsigned int j = 0; j < i; j++)
-			{
-				if(user_input.at(j) == '"') quot_It++;
+			if (user_input.at(i-1) == '"') {
+				continue;
 			}
-			if(quot_It % 2) continue;		//if its odd, then break. This means that it is nested in quotation marks Or nested quotes somewhere else
-			else
+			
+			for (unsigned int j = 0; j < i; j++) {
+				if (user_input.at(j) == '"') {
+					quot_It++;
+				}
+			}
+			if (quot_It % 2) {
+				continue;		//if its odd, then break. This means that it is nested in quotation marks Or nested quotes somewhere else
+			}	else {
 				user_input.erase (i, string::npos);
+			}
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	
-	//adds a space infront of, and behind a semicolon delimiter
-    //this way user can input with no spaces
-	for (unsigned i = 0; i < user_input.size(); i++)
-	{
-			if(user_input.at(i) == ';') 
-			{
-				//inserts whitespace before ';'
+	// Inserts a space in front of, and behind a semicolon delimiter
+  // this way user can input with no spaces
+	for (unsigned i = 0; i < user_input.size(); i++) {
+		if (user_input.at(i) == ';') {
+			
+			// Inserts whitespace before ';'
+			user_input.insert(i, " ");
+			
+			// Increment i by 2 to move past semicolon
+			i += 2;
+			
+			// Check that we are not at the end of the string and add whitespace after
+			// semicolon
+			if (i < user_input.size()) {
 				user_input.insert(i, " ");
-				//increment i by 2 to move past semicolon
-				i += 2;
-				
-				//Check that we are not at the end of the string and add whitespace after semicolon
-				if(i < user_input.size())
-				{
-					user_input.insert(i, " ");
-					i++;
-				}
-				else
-				{
-					break;
-				}
+				i++;
+			}	else {
+				break;
 			}
-		//break were at the end
-		//if(i == user_input.size()) break;
-				//special case for both doble && and double ||
-    	if(user_input.at(i) == '&' && user_input.at(i+1) == '&')
-    	{
-    		user_input.insert(i, " ");
-    		user_input.insert(i + 3 ," ");
-    		i+=4;
-    	}
-    	
-    	if(user_input.at(i) == '|' && user_input.at(i+1) == '|')
-    	{
-    		user_input.insert(i, " ");
-    		user_input.insert(i + 3," ");
-    		i+=4;
-    	}
+		}
+		
+		// Special case for both double && and double ||
+		if (user_input.at(i) == '&' && user_input.at(i+1) == '&')	{
+			user_input.insert(i, " ");
+			user_input.insert(i + 3 ," ");
+			i+=4;
+		}
+		
+		if (user_input.at(i) == '|' && user_input.at(i+1) == '|')	{
+			user_input.insert(i, " ");
+			user_input.insert(i + 3," ");
+			i+=4;
+		}
 	}
 	
 	//LEFT PARENTHESES -- GOOD
 	//adds a space in front of, and behind a left parentheses delimiter
-    //this way user can input with no spaces
-	for (unsigned i = 0; i < user_input.size(); i++)
-	{
-			if (user_input.at(i) == '(') 
+	for (unsigned i = 0; i < user_input.size(); i++) {
+		if (user_input.at(i) == '(') {
+			//if parentheses is at the beginning
+			if (i == 0)	{
+				// Move to next index to later insert whitespace after '('
+				i++;
+				user_input.insert(i, " ");
+				//
+				//i++;
+				continue;
+			}
+			
+			//if parentheses is not at the beginning
+			if ( i > 0)
 			{
-				//if parentheses is at the beginning
-				if( i == 0)
+				
+				//If a there is no whitespace before '(' then inserts whitespace before '('
+				if ( user_input.at(i - 1) != ' ')
+				{	
+					user_input.insert(i, " ");
+					//increment i by 2 to move past left parentheses
+					i = i + 2;
+				}
+				else
 				{
 					//move to next index to later insert whitespace after '('
 					i++;
-					user_input.insert(i, " ");
-					//
-					//i++;
-					continue;
 				}
 				
-				//if parentheses is not at the beginning
-				if ( i > 0)
+				//Check that we are not at the end of the string and add whitespace after '('
+				if(i <= user_input.size())
 				{
-					
-					//If a there is no whitespace before '(' then inserts whitespace before '('
-					if ( user_input.at(i - 1) != ' ')
-					{	
-						user_input.insert(i, " ");
-						//increment i by 2 to move past left parentheses
-						i = i + 2;
-					}
-					else
-					{
-						//move to next index to later insert whitespace after '('
-						i++;
-					}
-					
-					//Check that we are not at the end of the string and add whitespace after '('
-					if(i <= user_input.size())
-					{
-						user_input.insert(i, " ");
-						//i++;
-					}
+					user_input.insert(i, " ");
+					//i++;
 				}
-				
-				
 			}
+			
+			
+		}
 	}
 	
 	//RIGHT PARENTHESES -- GOOD
@@ -244,17 +238,17 @@ void Parser::vectorize(string user_input)
     	//builds the vector by first parsing through user_input and deleting all spaces.
 		for (unsigned int i = 0; i < user_input.size(); i++)
 		{
-			boost::split(commands, user_input, boost::is_any_of(" "), boost::token_compress_on);
+			boost::split(commands_, user_input, boost::is_any_of(" "), boost::token_compress_on);
 		}
-		if(commands.at(0) == "")
-			commands.erase(commands.begin());
+		if(commands_.at(0) == "")
+			commands_.erase(commands_.begin());
 		//goes through the vector and creates commands by adding back in spaces, and grouping 2 statement commands IE:ls -a
-		for (unsigned int i = 0; i < commands.size() + 10; i++)
+		for (unsigned int i = 0; i < commands_.size() + 10; i++)
 		{
-		    for(unsigned int j = 0; j < commands.size() - 1; j++)
+		    for(unsigned int j = 0; j < commands_.size() - 1; j++)
 		    {
-			    tmp = commands.at(j);
-			    tmp2 = commands.at(j + 1);
+			    tmp = commands_.at(j);
+			    tmp2 = commands_.at(j + 1);
 			    foundSemi = tmp.find(';');
 			    foundAnd = tmp.find('&');
 			    foundOr = tmp.find('|');
@@ -269,13 +263,13 @@ void Parser::vectorize(string user_input)
 				if(foundSemi2 != string::npos || foundAnd2 != string::npos || foundOr2 != string::npos || foundRP2 != string::npos || foundLP2 != string::npos) continue;
 				else
 				{
-					if (commands.size() == j) continue;
+					if (commands_.size() == j) continue;
 					if (foundSemi != string::npos || foundAnd != string::npos || foundOr != string::npos || foundRP != string::npos || foundLP != string::npos) continue;
 					else
 					{
-						commands.at(j) += " ";
-						commands.at(j) += commands.at(j + 1);
-						commands.erase(commands.begin() + (j + 1));
+						commands_.at(j) += " ";
+						commands_.at(j) += commands_.at(j + 1);
+						commands_.erase(commands_.begin() + (j + 1));
 					}
 				}
 				if (foundSemi != string::npos || foundAnd != string::npos || foundOr != string::npos || foundRP != string::npos || foundLP != string::npos) continue;
@@ -296,10 +290,10 @@ void Parser::vectorize(string user_input)
 
 
 
-Command* Parser::parse(string user_input)
+Command* Parser::Parse(string user_input)
 {
 
-   vectorize(user_input); 
+   Vectorize(user_input); 
     
     /**********************************************
      * Token Bank
@@ -336,7 +330,7 @@ Command* Parser::parse(string user_input)
      * delimeter it receives.
      * 
 	 ****************************************************************************************************************************/
-   for(unsigned int index = 0; index < commands.size(); index++)
+   for(unsigned int index = 0; index < commands_.size(); index++)
    {
 		//Workaround - Getting an empty string at index 0 for some reason. We may need to investigate the vectorize function.
    		// if (index > commands.size()) break;
@@ -346,22 +340,22 @@ Command* Parser::parse(string user_input)
    		
    		
    		//---------------------------------------------Parentheses Handler---------------------------------------------------
-   		if (left_parentheses.c_str() == commands.at(index)) //If commands at index is a parentheses jump in
+   		if (left_parentheses.c_str() == commands_.at(index)) //If commands at index is a parentheses jump in
    			{
    				lp_count++; //increment left parentheses count
 			   	index++;//now, jump past left parentheses
 			   	
 			   	while (lp_count != rp_count)//run while left parentheses does not have a matching right parentheses
 			   	{
-			   		if (commands.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
+			   		if (commands_.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
 			   	
-			   		if (commands.at(index) == right_parentheses.c_str()) rp_count++;//if we find a right parenthese, increment 
+			   		if (commands_.at(index) == right_parentheses.c_str()) rp_count++;//if we find a right parenthese, increment 
 			
 			  		//build a substring until hitting the right parentheses
 			   	
 			   		if (lp_count != rp_count)
 			   		{
-				   		sub_command.append(commands.at(index));
+				   		sub_command.append(commands_.at(index));
 				   		//sub_command.append(" ");
 			   		}
 			   		index++;
@@ -373,7 +367,7 @@ Command* Parser::parse(string user_input)
 			   	
 			   	}
 			 
-			   	if(index < commands.size() && (commands.at(index) == right_parentheses.c_str())) 
+			   	if(index < commands_.size() && (commands_.at(index) == right_parentheses.c_str())) 
 			   	{
 			   		index++;//skip past right parentheses
 			   	}
@@ -384,7 +378,7 @@ Command* Parser::parse(string user_input)
 			   	//recursive call parse -- takes care of nested parentheses
 			   	Parser* sub_parser = new Parser();
 			   
-			   	leftCmd = sub_parser->parse(sub_command); //expect command to be returned then store in tree
+			   	left_command_ = sub_parser->Parse(sub_command); //expect command to be returned then store in tree
 			   	
 			   	sub_command = ""; //reset sub_command after use
 
@@ -394,12 +388,12 @@ Command* Parser::parse(string user_input)
 		//first Statement Build
  		//---------------------------------------------Statement Handler---------------------------------------------------
    		//if commands at index is not a delimeter then it is a statement.
-   		if ((index < commands.size()) && (and_delimeter.c_str() != commands.at(index)) 
-   														  && (or_delimeter.c_str() != commands.at(index))
-   														  && (semicolon_delimeter.c_str() != commands.at(index))
-   														  && (blank.c_str() != commands.at(index))
-   														  && (index < commands.size())
-   														  && (left_parentheses.c_str() != commands.at(index)))
+   		if ((index < commands_.size()) && (and_delimeter.c_str() != commands_.at(index)) 
+   														  && (or_delimeter.c_str() != commands_.at(index))
+   														  && (semicolon_delimeter.c_str() != commands_.at(index))
+   														  && (blank.c_str() != commands_.at(index))
+   														  && (index < commands_.size())
+   														  && (left_parentheses.c_str() != commands_.at(index)))
    		{
    			//********************TEST OBJECT PSUEDO CODE********************************************
    			//string compare index with 'test' or'[', true - set object as test object
@@ -410,26 +404,26 @@ Command* Parser::parse(string user_input)
 			//else, object is statement object
    			//----------------------------------------------------------------------------
    			//if its a test statement build a test statement other wise its just a normal statement
-   			if(commands[index][0] == '[' || commands.at(index).compare(0,4,"test") == 0)
+   			if(commands_[index][0] == '[' || commands_.at(index).compare(0,4,"test") == 0)
    			{
-   				leftCmd = new Test(commands.at(index));
+   				left_command_ = new Test(commands_.at(index));
    				index++;
    			}
-   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd') && ((commands[index].size() == 2) || (commands[index][2] == ' ')))//added for cd assignment
+   			else if((commands_[index][0] == 'c') && (commands_[index][1] == 'd') && ((commands_[index].size() == 2) || (commands_[index][2] == ' ')))//added for cd assignment
    			{
-   				leftCmd = new Cd(commands.at(index));
+   				left_command_ = new Cd(commands_.at(index));
    				index++;
    			}
    			else //its a normal statement
    			{
-	   			leftCmd = new Statement(commands.at(index));
+	   			left_command_ = new Statement(commands_.at(index));
 	   			index++;
    			}
    			// leftCmd = new Statement(commands.at(index));
 	   		// index++;
    			
    			//handles the single command case.
-   			if(index >= commands.size()) break; 
+   			if(index >= commands_.size()) break; 
    		}
    		//-----------------------END OF Statement---------------------------------------------------------------------
    		
@@ -443,36 +437,36 @@ Command* Parser::parse(string user_input)
    		
    		
    		//-----------------------------And Case---------------------------------------
-   		if((index < commands.size()) && (and_delimeter.c_str() == commands.at(index)))//if it is an And delimeter
+   		if((index < commands_.size()) && (and_delimeter.c_str() == commands_.at(index)))//if it is an And delimeter
    		{
    			index ++;//increment index to next delimeter
    			
    			//grab next string in index and stor it in  a statement
-   			if ( left_parentheses.c_str() != commands.at(index))
+   			if ( left_parentheses.c_str() != commands_.at(index))
    			{
-   				if(commands[index][0] == '[' || commands.at(index).compare(0,4,"test") == 0)
+   				if(commands_[index][0] == '[' || commands_.at(index).compare(0,4,"test") == 0)
 	   			{
-	   				rightCmd = new Test(commands.at(index));
-   					leftCmd = new And(leftCmd, rightCmd);
+	   				right_command_ = new Test(commands_.at(index));
+   					left_command_ = new And(left_command_, right_command_);
 	   			}
-	   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd'))//added for cd assignment
+	   			else if((commands_[index][0] == 'c') && (commands_[index][1] == 'd'))//added for cd assignment
 	   			{
-	   				rightCmd = new Cd(commands.at(index));
-	   				leftCmd = new And(leftCmd, rightCmd);
+	   				right_command_ = new Cd(commands_.at(index));
+	   				left_command_ = new And(left_command_, right_command_);
 	   			}
 	   			else //its a normal statement
 	   			{
-		   			rightCmd = new Statement(commands.at(index));
-   					leftCmd = new And(leftCmd, rightCmd);
+		   			right_command_ = new Statement(commands_.at(index));
+   					left_command_ = new And(left_command_, right_command_);
 	   			}
    				// rightCmd = new Statement(commands.at(index));
    				// leftCmd = new And(leftCmd, rightCmd);
    			}
-   			else if (left_parentheses.c_str() == commands.at(index))
+   			else if (left_parentheses.c_str() == commands_.at(index))
    			{
-   				index = build_parentheses(index);
+   				index = BuildParentheses(index);
    				//add sub tree to regular tree
-   				leftCmd = new And(leftCmd, rightCmd);
+   				left_command_ = new And(left_command_, right_command_);
    				sub_command = ""; //reset sub_command after use -- may be useless
    				
    			}
@@ -481,37 +475,37 @@ Command* Parser::parse(string user_input)
    		
    		
    		//--------------------------------Or Case---------------------------------------
-   		if((index < commands.size()) && (or_delimeter.c_str() == commands.at(index)))
+   		if((index < commands_.size()) && (or_delimeter.c_str() == commands_.at(index)))
    		{
    			index ++;//increment index to next delimeter
    			//grab next string in index and stor it in  a statement
-   			if ( left_parentheses.c_str() != commands.at(index))
+   			if ( left_parentheses.c_str() != commands_.at(index))
    			{
-   				if(commands[index][0] == '[' || commands.at(index).compare(0,4,"test") == 0)
+   				if(commands_[index][0] == '[' || commands_.at(index).compare(0,4,"test") == 0)
 	   			{
-	   				rightCmd = new Test(commands.at(index));
-   					leftCmd = new Or(leftCmd, rightCmd);
+	   				right_command_ = new Test(commands_.at(index));
+   					left_command_ = new Or(left_command_, right_command_);
 	   			}
-	   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd'))//added for cd assignment
+	   			else if((commands_[index][0] == 'c') && (commands_[index][1] == 'd'))//added for cd assignment
 	   			{
-	   				rightCmd = new Cd(commands.at(index));
-	   				leftCmd = new And(leftCmd, rightCmd);
+	   				right_command_ = new Cd(commands_.at(index));
+	   				left_command_ = new And(left_command_, right_command_);
 	   			}
 	   			else //its a normal statement
 	   			{
-		   			rightCmd = new Statement(commands.at(index));
-   					leftCmd = new Or(leftCmd, rightCmd);
+		   			right_command_ = new Statement(commands_.at(index));
+   					left_command_ = new Or(left_command_, right_command_);
 	   			}
    				// rightCmd = new Statement(commands.at(index));
    				// leftCmd = new Or(leftCmd, rightCmd);
    			}
    			
    			//CHECKS FOR PARENTHESES
-   			else if (left_parentheses.c_str() == commands.at(index))
+   			else if (left_parentheses.c_str() == commands_.at(index))
    			{
-   				index = build_parentheses(index);
+   				index = BuildParentheses(index);
    				//add sub tree to regular tree
-   				leftCmd = new Or(leftCmd, rightCmd);
+   				left_command_ = new Or(left_command_, right_command_);
    				sub_command = ""; //reset sub_command after use -- may be useless
 	
    			}
@@ -524,39 +518,39 @@ Command* Parser::parse(string user_input)
    		//--------------------------------Semicolon Case---------------------------------------
    		
    		//trailing semicolon hack
-   		if ((index < commands.size()) && (commands.at(commands.size() - 1) == semicolon_delimeter.c_str())) commands.at(commands.size() - 1) = ""; 
+   		if ((index < commands_.size()) && (commands_.at(commands_.size() - 1) == semicolon_delimeter.c_str())) commands_.at(commands_.size() - 1) = ""; 
    			
-   		if((index < commands.size()) && (semicolon_delimeter.c_str() == commands.at(index)))
+   		if((index < commands_.size()) && (semicolon_delimeter.c_str() == commands_.at(index)))
    		{
    			index ++;//increment index to next delimeter
    			//grab next string in index and stor it in  a statement
-   			if ( left_parentheses.c_str() != commands.at(index))
+   			if ( left_parentheses.c_str() != commands_.at(index))
    			{
-   				if(commands[index][0] == '[' || commands.at(index).compare(0,4,"test") == 0)
+   				if(commands_[index][0] == '[' || commands_.at(index).compare(0,4,"test") == 0)
 	   			{
-	   				rightCmd = new Test(commands.at(index));
-   					leftCmd = new Semicolon(leftCmd, rightCmd);
+	   				right_command_ = new Test(commands_.at(index));
+   					left_command_ = new Semicolon(left_command_, right_command_);
 	   			}
-	   			else if((commands[index][0] == 'c') && (commands[index][1] == 'd'))//added for cd assignment
+	   			else if((commands_[index][0] == 'c') && (commands_[index][1] == 'd'))//added for cd assignment
 	   			{
-	   				rightCmd = new Cd(commands.at(index));
-	   				leftCmd = new And(leftCmd, rightCmd);
+	   				right_command_ = new Cd(commands_.at(index));
+	   				left_command_ = new And(left_command_, right_command_);
 	   			}
 	   			else //its a normal statement
 	   			{
-		   			rightCmd = new Statement(commands.at(index));
-   					leftCmd = new Semicolon(leftCmd, rightCmd);
+		   			right_command_ = new Statement(commands_.at(index));
+   					left_command_ = new Semicolon(left_command_, right_command_);
 	   			}
    				// rightCmd = new Statement(commands.at(index));
    				// leftCmd = new Semicolon(leftCmd, rightCmd);
    			}
    			
    			//CHECKS FOR PARENTHESES
-   			else if (left_parentheses.c_str() == commands.at(index))
+   			else if (left_parentheses.c_str() == commands_.at(index))
    			{
-   				index = build_parentheses(index);
+   				index = BuildParentheses(index);
    				//add sub tree to regular tree
-   				leftCmd = new Semicolon(leftCmd, rightCmd);
+   				left_command_ = new Semicolon(left_command_, right_command_);
    				
    				sub_command = ""; //reset sub_command after use -- may be useless
    				
@@ -571,7 +565,7 @@ Command* Parser::parse(string user_input)
     //*********************End of Command Tree Builder************
 
 
-    return leftCmd; // return built tree to caller.
+    return left_command_; // return built tree to caller.
 }
 
 
@@ -583,7 +577,7 @@ Command* Parser::parse(string user_input)
      * responsible for handling parentheses cases as well as nested parentheses.
      *
 	 ****************************************************************************************************************************/
-unsigned int Parser::build_parentheses(unsigned int index)
+unsigned int Parser::BuildParentheses(unsigned int index)
 {
 	//keep track of parentheses count
 	int lp_count = 0;
@@ -618,15 +612,15 @@ unsigned int Parser::build_parentheses(unsigned int index)
    	
    		while (lp_count != rp_count)//run while left parentheses does not have a matching right parentheses
 	   	{
-	   		if (commands.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
+	   		if (commands_.at(index) == left_parentheses.c_str()) lp_count++;//if we find another left parenthese, increment 
 	   	
-	   		if (commands.at(index) == right_parentheses.c_str()) rp_count++;//if we find a right parenthese, increment 
+	   		if (commands_.at(index) == right_parentheses.c_str()) rp_count++;//if we find a right parenthese, increment 
 	
 	  		//build a substring until hitting the right parentheses
 	   	
 	   		if (lp_count != rp_count)
 	   		{
-		   		sub_command.append(commands.at(index));
+		   		sub_command.append(commands_.at(index));
 		   		//sub_command.append(" ");
 	   		}
 	   		index++;
@@ -638,7 +632,7 @@ unsigned int Parser::build_parentheses(unsigned int index)
 	   	
 	   	}
 	 
-	   	if(index < commands.size() && (commands.at(index) == right_parentheses.c_str())) 
+	   	if(index < commands_.size() && (commands_.at(index) == right_parentheses.c_str())) 
 	   	{
 	   		index++;//skip past right parentheses
 	   	}
@@ -649,7 +643,7 @@ unsigned int Parser::build_parentheses(unsigned int index)
    	
    	//recursive call parse -- takes care of nested parentheses
    	Parser* sub_parser = new Parser();
-    rightCmd = sub_parser->parse(sub_command); //expect command to be returned then store in tree
+    right_command_ = sub_parser->Parse(sub_command); //expect command to be returned then store in tree
    	//add sub tree to regular tree
    	
    	sub_command = ""; //reset sub_command after use

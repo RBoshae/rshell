@@ -5,8 +5,7 @@
  * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 11/07/2016
  *
  */
-#ifndef PARSER_H
-#define PARSER_H
+#pragma once
 
 #include <stdio.h>
 
@@ -33,29 +32,23 @@ class Command;
 
 class Parser {
     
-    private:
-    vector<string> commands; //contains list of parsed arguments
+ public:
+   Parser();
+   ~Parser();
     
-    //helper function: vectorize will be called to store store a string into a vector
-    void vectorize(string user_input);
-    // int build_and(int index);
-    // int build_or(int index);
-    // int build_semicolon(int index);
-    unsigned int build_parentheses(unsigned int index);
+   // Parse returns a tree of type command*/
+   Command* Parse(const string &user_input);
+
+ private:
+   vector<string> commands_; //contains list of parsed arguments
     
-    //serves as temporary command object to construct our tree
-    Command* leftCmd; 
-    Command* rightCmd; 
+   // Vectorize converts string into a vector
+   void Vectorize(string user_input);
+
+   unsigned int BuildParentheses(unsigned int index);
     
-    
-    public:
-    /* Constructos */
-    Parser();
-    ~Parser();
-    
-    /*parse will return a tree of type command to the caller*/
-    Command* parse(string user_input);
-    
-    
+   //serves as temporary command object to construct our tree
+   Command* left_command_; 
+   Command* right_command_; 
+     
 };
-#endif

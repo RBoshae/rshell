@@ -52,7 +52,7 @@ int main() {
 			}
 		}    	
 		
-		command = parser->parse(input);
+		command = parser->Parse(input);
 		command->Execute();
 		
 		if(input == "exit") exit(0);
