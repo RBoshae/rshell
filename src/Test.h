@@ -9,7 +9,7 @@
 #ifndef TEST_H
 #define TEST_H
 #include <iostream>
-#include "Command.h"
+#include "command.h"
 #include <string>
 //Libraries needed for stat()
 #include <sys/types.h>
@@ -22,8 +22,7 @@
 
 using namespace std;
 
-class Test :
-	public Command
+class Test : public Command
 {
 protected:
 	std::string single_command; 

@@ -8,7 +8,7 @@
 
 #ifndef STATEMENT_H
 #define STATEMENT_H
-#include "Command.h"
+#include "command.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -23,8 +23,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-class Statement :
-	public Command
+class Statement : public Command
 {
 protected:
 	char* arg;

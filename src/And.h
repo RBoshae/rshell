@@ -9,10 +9,9 @@
 #ifndef AND_H
 #define AND_H
 
-#include "Command.h"
+#include "command.h"
 
-class And : 
-	public Command
+class And : public Command
 
 {
 	protected:

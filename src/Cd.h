@@ -9,22 +9,22 @@
 #ifndef Cd_H
 #define Cd_H
 
-#include "Command.h"
-#include <iostream>
-#include <string>
-//Libraries needed for stat()
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <cstring>
+#include <iostream>
+#include <string>
+
+#include "command.h"
 
 using namespace std;
 
-class Cd :
-	public Command
+class Cd : public Command
 {
 protected:
 	std::string single_command; 

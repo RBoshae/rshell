@@ -10,7 +10,8 @@
 #define SEMICOLON_H
 
 #include <iostream>
-#include "Command.h"
+
+#include "command.h"
 
 class Semicolon : 
 	public Command

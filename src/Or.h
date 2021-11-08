@@ -9,7 +9,7 @@
 #ifndef OR_H
 #define OR_H
 
-#include "Command.h"
+#include "command.h"
 //class Command;
 class Or : public Command
 {
