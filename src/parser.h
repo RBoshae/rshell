@@ -39,7 +39,9 @@ class Parser {
    // Parse returns a tree of type command*/
    Command* Parse(string user_input);
 	 
+	 std::string Cleanse(string input);
 	 std::string RemoveComments(const string &input);
+	 std::string Format(string input);
 
  private:
    vector<string> commands_; //contains list of parsed arguments

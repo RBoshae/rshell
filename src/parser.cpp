@@ -15,10 +15,11 @@ Parser::Parser() {
 Parser::~Parser() {
 }
 
-Command* Parser::Parse(string user_input)
-{
-	std::string user_input_without_comments = RemoveComments(user_input);
-  Vectorize(user_input_without_comments);
+Command* Parser::Parse(string user_input) {
+	
+	std::string clean_input = Cleanse(user_input);
+	
+  Vectorize(clean_input);
 
   /**********************************************
      * Token Bank
@@ -271,6 +272,148 @@ Command* Parser::Parse(string user_input)
   return left_command_; // return built tree to caller.
 }
 
+std::string Parser::Cleanse(string input) {
+	input = RemoveComments(input);
+	input = Format(input);
+
+	return input;
+}
+
+// Remove comments in a string
+// Example:
+// Input: # this is a comment  Output: 
+// Input: echo a # && echo b   Output: b
+// Input: echo "#hello"        Output: #hello
+std::string Parser::RemoveComments(const std::string &input) {
+
+  std::string input_without_comments;
+
+	unsigned int i = 0;
+
+	for (i = 0; i < input.size(); ++i) {
+		if (input.at(i) == '"') {
+			i = input.find('"',i);
+		} else if (input.at(i) == '#') {
+			break;
+		}
+		input_without_comments = input.substr(0,i+1);
+	}
+
+  return input_without_comments;
+  
+}
+
+// Formats input in a way useful for splitting
+std::string Parser::Format(string input) {
+
+	std::string formatted_input;
+
+	// If the first thing inputs is nothing. Add a space
+  if (input == "") {
+    return " ";
+  }
+
+  //----------------------------------------------------------------------------
+
+  // Inserts a space in front of, and behind a semicolon delimiter this way user 
+	// can input with no spaces
+  for (unsigned i = 0; i < input.size(); i++) {
+    if (input.at(i) == ';') {
+
+      // Inserts whitespace before ';'
+      input.insert(i, " ");
+
+      // Increment i by 2 to move past semicolon
+      i += 2;
+
+      // Check that we are not at the end of the string and add whitespace after
+      // semicolon
+      if (i < input.size()) {
+        input.insert(i, " ");
+        ++i;
+      }
+      else {
+        break;
+      }
+    }
+
+    // Special case for both double && and double ||
+    if (input.at(i) == '&' && input.at(i + 1) == '&') {
+      input.insert(i, " ");
+      input.insert(i + 3, " ");
+      i += 4;
+    }
+
+    if (input.at(i) == '|' && input.at(i + 1) == '|') {
+      input.insert(i, " ");
+      input.insert(i + 3, " ");
+      i += 4;
+    }
+  }
+
+  //LEFT PARENTHESES -- GOOD
+  //adds a space in front of, and behind a left parentheses delimiter
+  for (unsigned i = 0; i < input.size(); i++) {
+    if (input.at(i) == '(') {
+      //if parentheses is at the beginning
+      if (i == 0) {
+        // Move to next index to later insert whitespace after '('
+        i++;
+        input.insert(i, " ");
+        //
+        //i++;
+        continue;
+      }
+
+      //if parentheses is not at the beginning
+      if (i > 0) {
+
+        //If a there is no whitespace before '(' then inserts whitespace before '('
+        if (input.at(i - 1) != ' ') {
+          input.insert(i, " ");
+          //increment i by 2 to move past left parentheses
+          i = i + 2;
+        }
+        else {
+          //move to next index to later insert whitespace after '('
+          i++;
+        }
+
+        //Check that we are not at the end of the string and add whitespace after '('
+        if (i <= input.size()) {
+          input.insert(i, " ");
+        }
+      }
+    }
+  }
+
+  //RIGHT PARENTHESES -- GOOD
+  //adds a space infront of, and behind a right parentheses delimiter
+  //this way user can input with no spaces
+  for (unsigned i = 0; i < input.size(); i++) {
+    if (input.at(i) == ')') {
+
+      //If a there is no whitespace before ')' then inserts whitespace before ')'
+      if (input.at(i - 1) != ' ') {
+        input.insert(i, " ");
+        //increment i by 2 to move past right parentheses
+        i = i + 1;
+      } else {
+        //move to next index to later insert whitespace after ')'
+        //	i++;
+      }
+
+      //Check that we are not at the end of the string and add whitespace after ')'
+      if ((i + 1) < input.size()) {
+        i++;
+        input.insert(i, " ");
+      }
+    }
+  }
+
+	return input;
+}
+
 // Parses a string into distinct commands.
 // i.e.
 // Input: ls -a && echo "hello world" && true || pwd
@@ -285,128 +428,7 @@ void Parser::Vectorize(string user_input) {
   size_t foundRP, foundRP2;
   size_t foundLP, foundLP2;
 
-  // If the first thing inputs is nothing. Add a space
-  if (user_input == "") {
-    user_input = " ";
-  }
-
-  //----------------------------------------------------------------------------
-
-  // Inserts a space in front of, and behind a semicolon delimiter
-  // this way user can input with no spaces
-  for (unsigned i = 0; i < user_input.size(); i++)
-  {
-    if (user_input.at(i) == ';')
-    {
-
-      // Inserts whitespace before ';'
-      user_input.insert(i, " ");
-
-      // Increment i by 2 to move past semicolon
-      i += 2;
-
-      // Check that we are not at the end of the string and add whitespace after
-      // semicolon
-      if (i < user_input.size())
-      {
-        user_input.insert(i, " ");
-        i++;
-      }
-      else
-      {
-        break;
-      }
-    }
-
-    // Special case for both double && and double ||
-    if (user_input.at(i) == '&' && user_input.at(i + 1) == '&')
-    {
-      user_input.insert(i, " ");
-      user_input.insert(i + 3, " ");
-      i += 4;
-    }
-
-    if (user_input.at(i) == '|' && user_input.at(i + 1) == '|')
-    {
-      user_input.insert(i, " ");
-      user_input.insert(i + 3, " ");
-      i += 4;
-    }
-  }
-
-  //LEFT PARENTHESES -- GOOD
-  //adds a space in front of, and behind a left parentheses delimiter
-  for (unsigned i = 0; i < user_input.size(); i++)
-  {
-    if (user_input.at(i) == '(')
-    {
-      //if parentheses is at the beginning
-      if (i == 0)
-      {
-        // Move to next index to later insert whitespace after '('
-        i++;
-        user_input.insert(i, " ");
-        //
-        //i++;
-        continue;
-      }
-
-      //if parentheses is not at the beginning
-      if (i > 0)
-      {
-
-        //If a there is no whitespace before '(' then inserts whitespace before '('
-        if (user_input.at(i - 1) != ' ')
-        {
-          user_input.insert(i, " ");
-          //increment i by 2 to move past left parentheses
-          i = i + 2;
-        }
-        else
-        {
-          //move to next index to later insert whitespace after '('
-          i++;
-        }
-
-        //Check that we are not at the end of the string and add whitespace after '('
-        if (i <= user_input.size())
-        {
-          user_input.insert(i, " ");
-          //i++;
-        }
-      }
-    }
-  }
-
-  //RIGHT PARENTHESES -- GOOD
-  //adds a space infront of, and behind a right parentheses delimiter
-  //this way user can input with no spaces
-  for (unsigned i = 0; i < user_input.size(); i++)
-  {
-    if (user_input.at(i) == ')')
-    {
-
-      //If a there is no whitespace before ')' then inserts whitespace before ')'
-      if (user_input.at(i - 1) != ' ')
-      {
-        user_input.insert(i, " ");
-        //increment i by 2 to move past right parentheses
-        i = i + 1;
-      }
-      else
-      {
-        //move to next index to later insert whitespace after ')'
-        //	i++;
-      }
-
-      //Check that we are not at the end of the string and add whitespace after ')'
-      if ((i + 1) < user_input.size())
-      {
-        i++;
-        user_input.insert(i, " ");
-      }
-    }
-  }
+  
 
   // Builds the vector by first parsing through user_input and deleting all 
   // spaces.
@@ -474,32 +496,6 @@ void Parser::Vectorize(string user_input) {
 
   return;
 }
-
-// Remove comments in a string
-// Example:
-// Input: # this is a comment  Output: 
-// Input: echo a # && echo b   Output: b
-// Input: echo "#hello"        Output: #hello
-std::string Parser::RemoveComments(const std::string &input) {
-
-  std::string input_without_comments;
-
-	unsigned int i = 0;
-
-	for (i = 0; i < input.size(); ++i) {
-		if (input.at(i) == '"') {
-			i = input.find('"',i);
-		} else if (input.at(i) == '#') {
-			break;
-		}
-		input_without_comments = input.substr(0,i+1);
-	}
-
-  return input_without_comments;
-  
-}
-
-
 
 /*****************************************************************************************************************************
      * build_parentheses
