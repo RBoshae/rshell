@@ -1,5 +1,5 @@
 COMPILE = g++
-FLAGS = -std=c++11 -Wall -ansi -pedantic
+FLAGS = -std=c++11 -Wall -pedantic -Wsuggest-override
 
 OBJS = ./bin/command.o ./bin/and.o ./bin/cd.o ./bin/or.o ./bin/statement.o ./bin/semicolon.o ./bin/parser.o ./bin/test.o
 
