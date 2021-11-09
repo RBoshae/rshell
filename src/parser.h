@@ -15,8 +15,8 @@
 #include <iostream>
 #include <algorithm> 
 
-#include <boost/algorithm/string/classification.hpp> // Include boost::for is_any_of
-#include <boost/algorithm/string/split.hpp> // Include for boost::split
+#include <boost/algorithm/string/classification.hpp>  // Include boost::for is_any_of
+#include <boost/algorithm/string/split.hpp>           // Include for boost::split
 
 #include "and.h"
 #include "cd.h"
@@ -37,7 +37,9 @@ class Parser {
    ~Parser();
     
    // Parse returns a tree of type command*/
-   Command* Parse(const string &user_input);
+   Command* Parse(string user_input);
+	 
+	 std::string RemoveComments(const string &input);
 
  private:
    vector<string> commands_; //contains list of parsed arguments
