@@ -6,9 +6,10 @@
 *
 */
 
-#ifndef STATEMENT_H
-#define STATEMENT_H
+#pragma once
+
 #include "command.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -26,14 +27,12 @@
 class Statement : public Command {
  public:
 	Statement();
-	Statement(std::string passed_in_command); //sets single_command data member
+	Statement(std::string command); //sets single_command data member
 	~Statement();
 
 	bool Execute() override;
  
  protected:
 	char* arg;
-	std::string single_command_; //stores string that will be passed to exec vp to run
+	std::string command_; //stores string that will be passed to exec vp to run
 };
-
-#endif

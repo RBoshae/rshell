@@ -23,41 +23,37 @@ using namespace std;
 
 int main() {
 
-	Command* command;
-	Parser*  parser = new Parser();
   
 	string input = "";
   string addition_input = "";
 	
 	while (true) {
 
-		cout << shell_utilities::Username() << "@" << shell_utilities::Hostname() << ":";
-		cout << shell_utilities::WorkingDir() << "$ ";
+		// The funny symbols add color to the output. 
+		// For more info see https://en.wikipedia.org/wiki/ANSI_escape_code
+		cout << "\033[1;35m" << shell_utilities::Username() << "@" << shell_utilities::Hostname() << "\033[0m:";
+		cout << "\033[1;33m" << shell_utilities::WorkingDir() << "\033[0m$ ";
 		
-    getline(cin, input);
-    	
-    if ((input == "") || (input.at(0) == '#')) continue;
-    	
-		while (true) {
-			
-			if (shell_utilities::BalancedParenthesis(input)) {
-				break;
-			}	else {
+		getline(cin, input);
+
+		if ((input == "") || (input.at(0) == '#')) continue;
+
+		while (!shell_utilities::BalancedParenthesis(input)) {
 				cout << "> ";
 				getline(cin, addition_input);
 
 				input += addition_input;
 				
 				addition_input.clear(); //clear user input
-			}
-		}    	
+		}
 		
-		command = parser->Parse(input);
+		Parser parser;
+	  Command* command = parser.Parse(input);
+
 		command->Execute();
 		
 		if(input == "exit") exit(0);
 		input.clear();
-
 	}
 
 	return 0;

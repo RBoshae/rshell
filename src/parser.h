@@ -46,8 +46,8 @@ class Parser {
  private:
    vector<string> commands_; //contains list of parsed arguments
     
-   // Vectorize converts string into a vector
-   void Vectorize(string user_input);
+   // Parses string into a vector of commands.
+   void ToVector(string user_input);
 
    unsigned int BuildParentheses(unsigned int index);
     

@@ -12,15 +12,14 @@
 
 class And : public Command {
  public:
-	And() {};
-	And(Command* left_passed_command, Command* right_passed_command);
-	~And() {};
+	And();
+	And(Command* left_command, Command* right_command);
+	~And();
 
 	bool Execute() override;
 
-	protected:
-	//Command class has a bool value called success that is inherited here.
+ private:
+	// Command class has a bool value called success that is inherited here.
 	Command* left_command_;
 	Command* right_command_;
-
 };

@@ -16,8 +16,7 @@ Statement::~Statement() {
 }
 
 Statement::Statement(std::string command) {
-	this->single_command_ = command;
-	return;
+	command_ = command;
 }
 
 bool Statement::Execute() {
@@ -32,16 +31,16 @@ bool Statement::Execute() {
      **************************************************************************/
 	std::string exiter            = "exit";
 	std::string exiter_with_space = "exit ";
-	if (single_command_.c_str() == exiter 
-	    || (single_command_.c_str() == exiter_with_space)) exit (0);
+	if (command_.c_str() == exiter 
+	    || (command_.c_str() == exiter_with_space)) exit (0);
 	
 	//****************************End of RShell Exit Handlers*********************
 	
 	//This is where syscalls come in 
 
 	//Break up string by spaces and store them in an array of characters
-	arg = new char[single_command_.length() + 1];
-	std::strcpy(arg, single_command_.c_str());
+	arg = new char[command_.length() + 1];
+	std::strcpy(arg, command_.c_str());
 
 	//arg now contains a c-string copy of statement
 
@@ -64,32 +63,27 @@ bool Statement::Execute() {
 	child_pid = fork();
 
 	if (child_pid == -1) {
-		success = 1;
-		return 1;
+		return false;
 	}
 
-	if (child_pid == 0) {//This is the child process
+	if (child_pid == 0) { // This is the child process
 
 						 //This is done by the child process
 		execvp(array[0], array);
 
 		//If execvp returns, it must have failed
 		std::cout << "Unknown command" << std::endl;
-		success = 1;
 		exit(0);//exit child process.
-		return 1;
-	}
-	else { //This is the parent process
-		   //This is run by the parent. Wait for the child to terminate.
-		waitpid(child_pid, &status, 0);//wait for the child process to return
-		//std::cout << "int status of execvp call: " << status << std::endl;
-		if (status != 0) return 1;
+		return false;
+	}	else { // This is the parent process
+		       // This is run by the parent. Wait for the child to terminate.
+		waitpid(child_pid, &status, 0); // wait for the child process to return
+		
+		if (status != 0) return false;
 	}
 
-	//Kill Child
+	// Kill Child
 	kill(child_pid, SIGKILL);
 
-	success = 0;
-	return 0;
-
+	return true;
 }

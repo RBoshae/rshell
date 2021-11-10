@@ -2,25 +2,38 @@
  * File: And.cpp
  * -------------------------
  *
- * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 10/29/16.
+ * Created by Rick Boshae, Sammy Macaluso, and Christopher Sultzbaugh on 
+ * 10/29/16.
  *
  */
 
 #include "and.h"
 
-And::And(Command* left_passed_command, Command* right_passed_command) {
-	this->left_command_  = left_passed_command;
-	this->right_command_ = right_passed_command;
+And::And() :
+left_command_(nullptr),
+right_command_(nullptr) {
+
+}
+
+And::And(Command* left_command, Command* right_command) {
+	left_command_  = left_command;
+	right_command_ = right_command;
+}
+
+And::~And() {
+	if (left_command_ != nullptr) {
+		delete left_command_;
+	}
+
+	if (right_command_ != nullptr) {
+		delete right_command_;
+	}
 }
 
 bool And::Execute() {
-
-	//Always execute left_command_
-	int success = left_command_->Execute();
-	
-	// Only execute right_command_ if left_Command is true
-	if(success == 0)
+	// Always execute left_command_
+	if (left_command_->Execute()) {
 		return right_command_->Execute();
-	else 
-		return 1;
+	}
+	return false;
 }

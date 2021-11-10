@@ -19,7 +19,7 @@ Command* Parser::Parse(string user_input) {
 	
 	std::string clean_input = Cleanse(user_input);
 	
-  Vectorize(clean_input);
+  ToVector(clean_input);
 
   /**********************************************
      * Token Bank
@@ -299,117 +299,117 @@ std::string Parser::RemoveComments(const std::string &input) {
 		input_without_comments = input.substr(0,i+1);
 	}
 
-  return input_without_comments;
-  
+	return input_without_comments;
 }
 
-// Formats input in a way useful for splitting
+// Formats input to add spaces between delimeters. This is useful when using
+// boost's split command.
 std::string Parser::Format(string input) {
 
 	std::string formatted_input;
 
 	// If the first thing inputs is nothing. Add a space
-  if (input == "") {
-    return " ";
-  }
+	if (input == "") {
+		return " ";
+	}
 
-  //----------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 
-  // Inserts a space in front of, and behind a semicolon delimiter this way user 
+	// Inserts a space in front of, and behind a semicolon delimiter this way user 
 	// can input with no spaces
-  for (unsigned i = 0; i < input.size(); i++) {
-    if (input.at(i) == ';') {
+	for (unsigned i = 0; i < input.size(); i++) {
+		if (input.at(i) == ';') {
 
-      // Inserts whitespace before ';'
-      input.insert(i, " ");
+			// Inserts whitespace before ';'
+			input.insert(i, " ");
 
-      // Increment i by 2 to move past semicolon
-      i += 2;
+			// Increment i by 2 to move past semicolon
+			i += 2;
 
-      // Check that we are not at the end of the string and add whitespace after
-      // semicolon
-      if (i < input.size()) {
-        input.insert(i, " ");
-        ++i;
-      }
-      else {
-        break;
-      }
-    }
+			// Check that we are not at the end of the string and add whitespace after
+			// semicolon
+			if (i < input.size()) {
+				input.insert(i, " ");
+				++i;
+			}
+			else {
+				break;
+			}
+		}
 
-    // Special case for both double && and double ||
-    if (input.at(i) == '&' && input.at(i + 1) == '&') {
-      input.insert(i, " ");
-      input.insert(i + 3, " ");
-      i += 4;
-    }
+		// Special case for both double && and double ||
+		if (input.at(i) == '&' && input.at(i + 1) == '&') {
+			input.insert(i, " ");
+			input.insert(i + 3, " ");
+			i += 4;
+		}
 
-    if (input.at(i) == '|' && input.at(i + 1) == '|') {
-      input.insert(i, " ");
-      input.insert(i + 3, " ");
-      i += 4;
-    }
-  }
+		if (input.at(i) == '|' && input.at(i + 1) == '|') {
+			input.insert(i, " ");
+			input.insert(i + 3, " ");
+			i += 4;
+		}
+	}
 
-  //LEFT PARENTHESES -- GOOD
-  //adds a space in front of, and behind a left parentheses delimiter
-  for (unsigned i = 0; i < input.size(); i++) {
-    if (input.at(i) == '(') {
-      //if parentheses is at the beginning
-      if (i == 0) {
-        // Move to next index to later insert whitespace after '('
-        i++;
-        input.insert(i, " ");
-        //
-        //i++;
-        continue;
-      }
+	//LEFT PARENTHESES -- GOOD
+	//adds a space in front of, and behind a left parentheses delimiter
+	for (unsigned i = 0; i < input.size(); i++) {
+		if (input.at(i) == '(') {
+			//if parentheses is at the beginning
+			if (i == 0) {
+				// Move to next index to later insert whitespace after '('
+				i++;
+				input.insert(i, " ");
+				//
+				//i++;
+				continue;
+			}
 
-      //if parentheses is not at the beginning
-      if (i > 0) {
+			//if parentheses is not at the beginning
+			if (i > 0) {
 
-        //If a there is no whitespace before '(' then inserts whitespace before '('
-        if (input.at(i - 1) != ' ') {
-          input.insert(i, " ");
-          //increment i by 2 to move past left parentheses
-          i = i + 2;
-        }
-        else {
-          //move to next index to later insert whitespace after '('
-          i++;
-        }
+				//If a there is no whitespace before '(' then inserts whitespace before '('
+				if (input.at(i - 1) != ' ') {
+					input.insert(i, " ");
+					//increment i by 2 to move past left parentheses
+					i = i + 2;
+				}
+				else {
+					//move to next index to later insert whitespace after '('
+					i++;
+				}
 
-        //Check that we are not at the end of the string and add whitespace after '('
-        if (i <= input.size()) {
-          input.insert(i, " ");
-        }
-      }
-    }
-  }
+				//Check that we are not at the end of the string and add whitespace after '('
+				if (i <= input.size()) {
+					input.insert(i, " ");
+				}
+			}
+		}
+	}
 
-  //RIGHT PARENTHESES -- GOOD
-  //adds a space infront of, and behind a right parentheses delimiter
-  //this way user can input with no spaces
-  for (unsigned i = 0; i < input.size(); i++) {
-    if (input.at(i) == ')') {
+	//RIGHT PARENTHESES -- GOOD
+	//adds a space infront of, and behind a right parentheses delimiter
+	//this way user can input with no spaces
+	for (unsigned i = 0; i < input.size(); i++) {
+		if (input.at(i) == ')') {
 
-      //If a there is no whitespace before ')' then inserts whitespace before ')'
-      if (input.at(i - 1) != ' ') {
-        input.insert(i, " ");
-        //increment i by 2 to move past right parentheses
-        i = i + 1;
-      } else {
-        //move to next index to later insert whitespace after ')'
-        //	i++;
-      }
+			//If a there is no whitespace before ')' then inserts whitespace before ')'
+			if (input.at(i - 1) != ' ') {
+				input.insert(i, " ");
+				//increment i by 2 to move past right parentheses
+				i = i + 1;
+			} else {
+				//move to next index to later insert whitespace after ')'
+				//	i++;
+			}
 
-      //Check that we are not at the end of the string and add whitespace after ')'
-      if ((i + 1) < input.size()) {
-        i++;
-        input.insert(i, " ");
-      }
-    }
-  }
+			//Check that we are not at the end of the string and add whitespace after ')'
+			if ((i + 1) < input.size()) {
+				i++;
+				input.insert(i, " ");
+			}
+		}
+	}
 
 	return input;
 }
@@ -418,25 +418,22 @@ std::string Parser::Format(string input) {
 // i.e.
 // Input: ls -a && echo "hello world" && true || pwd
 // Output: [ls -a, &&, echo "hello world", &&, true, ||, pwd]
-void Parser::Vectorize(string user_input) {
-  //
-  string tmp, tmp2;
-  size_t foundSemi, foundSemi2;
-  size_t foundAnd, foundAnd2;
-  size_t foundOr, foundOr2;
-  //size_t foundCom, foundCom2;
-  size_t foundRP, foundRP2;
-  size_t foundLP, foundLP2;
+void Parser::ToVector(string user_input) {
+	//
+	string tmp, tmp2;
+	size_t foundSemi, foundSemi2;
+	size_t foundAnd, foundAnd2;
+	size_t foundOr, foundOr2;
+	//size_t foundCom, foundCom2;
+	size_t foundRP, foundRP2;
+	size_t foundLP, foundLP2;
 
-  
+	// Builds the vector by first parsing through user_input and deleting all 
+	// spaces.
+	boost::split(commands_, 
+								user_input, boost::is_any_of(" "), 
+								boost::token_compress_on);
 
-  // Builds the vector by first parsing through user_input and deleting all 
-  // spaces.
-  for (unsigned int i = 0; i < user_input.size(); i++) {
-    boost::split(commands_, 
-                 user_input, boost::is_any_of(" "), 
-                 boost::token_compress_on);
-  }
 
   if (commands_.at(0) == "") {
     commands_.erase(commands_.begin());

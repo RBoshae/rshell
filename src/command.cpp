@@ -3,3 +3,7 @@
 Command::Command() {
   
 }
+
+Command::~Command() {
+	
+}
