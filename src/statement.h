@@ -10,19 +10,19 @@
 
 #include "command.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <sstream>
-#include <iterator>
-#include <stdio.h>
-#include <cstring>
-#include <sys/types.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <signal.h>
 
 class Statement : public Command {
  public:
@@ -33,6 +33,5 @@ class Statement : public Command {
 	bool Execute() override;
  
  protected:
-	char* arg;
 	std::string command_; //stores string that will be passed to exec vp to run
 };

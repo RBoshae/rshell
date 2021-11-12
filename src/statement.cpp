@@ -20,38 +20,25 @@ Statement::Statement(std::string command) {
 }
 
 bool Statement::Execute() {
-	/*****************************************************************************
-	 * RShell Exit Handlers
-	 * ---------------------------------------------------------------------------
-	 * If Statement object is an exit command it will exit here.
-	 * version without space is the normal case
-	 * We would expect exit to have a space at the end if it was nested in a 
-	 * parentheses.
-	 * Possible Revisions would be to trim the value of exit when it is passed in.
-     **************************************************************************/
-	std::string exiter            = "exit";
-	std::string exiter_with_space = "exit ";
-	if (command_.c_str() == exiter 
-	    || (command_.c_str() == exiter_with_space)) exit (0);
-	
-	//****************************End of RShell Exit Handlers*********************
-	
-	//This is where syscalls come in 
 
-	//Break up string by spaces and store them in an array of characters
-	arg = new char[command_.length() + 1];
+	if (command_ == "exit") {
+		exit (0);
+	}
+	
+	// This is where syscalls come in 
+
+	// Break up string by spaces and store them in an array of characters
+	char* arg = new char[command_.length()];
 	std::strcpy(arg, command_.c_str());
 
-	//arg now contains a c-string copy of statement
-
-	char * tokenized_arg = std::strtok(arg, " ");
-	char * array[1000];
+	char* tokenized_arg = std::strtok(arg, " ");
+	char* array[1000];
 
 	int i = 0;
-	int status;
 
-	while (tokenized_arg != 0) {
-		array[i++] = tokenized_arg;
+	while (tokenized_arg != NULL) {
+		array[i] = tokenized_arg;
+		++i;
 		tokenized_arg = std::strtok(NULL, " ");
 	}
 	array[i] = NULL;
@@ -59,31 +46,39 @@ bool Statement::Execute() {
 	//********SYSTEMCALLS implementation*************
 	pid_t child_pid;
 
-	//create child process
+	// Create child process
 	child_pid = fork();
+	int result = 0;
 
 	if (child_pid == -1) {
 		return false;
 	}
 
-	if (child_pid == 0) { // This is the child process
+	// Child process
+	if (child_pid == 0) { 
 
-						 //This is done by the child process
+		// This is done by the child process
 		execvp(array[0], array);
 
-		//If execvp returns, it must have failed
+		// If execvp returns, it must have failed
 		std::cout << "Unknown command" << std::endl;
-		exit(0);//exit child process.
+		exit(1); // Exit child process.
 		return false;
-	}	else { // This is the parent process
-		       // This is run by the parent. Wait for the child to terminate.
-		waitpid(child_pid, &status, 0); // wait for the child process to return
+	}	
+	// Parent process
+	else { 
+		// Wait for the child to terminate.
+		waitpid(child_pid, &result, 0);
 		
-		if (status != 0) return false;
+		if (result != 0) {
+			return false;
+		} 
 	}
 
 	// Kill Child
 	kill(child_pid, SIGKILL);
+
+	delete arg;
 
 	return true;
 }
